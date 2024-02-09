@@ -9,20 +9,21 @@ class TranscriberContext:
 
     @staticmethod
     def getContextWithUrl():
-        return TranscriberContext()
+        return TranscriberContext("https://www.youtube.com/watch?v=z9w6tO4d90U", None, None, None, None)
 
     @staticmethod
     def getContextWithVideo():
-        return TranscriberContext()
+        return TranscriberContext("https://www.youtube.com/watch?v=z9w6tO4d90U", "./export/video.mp4", None, "./export/video.mp4", None)
 
     @staticmethod
     def getContextWithVideoAndAudio():
-        return TranscriberContext()
+        return TranscriberContext("https://www.youtube.com/watch?v=z9w6tO4d90U", "./export/video.mp4", "./export/audio.mp3", "./export/video.mp4", None)
 
     @staticmethod
     def getContextWithUrlAndPath():
-        return TranscriberContext()
+        return TranscriberContext("https://www.youtube.com/watch?v=z9w6tO4d90U", None, None, "./export/video.mp4", None)
 
     @staticmethod
     def getContextWithFull():
-        return TranscriberContext()
+        # Add Text went convert for the first time
+        return TranscriberContext("https://www.youtube.com/watch?v=z9w6tO4d90U", "./export/video.mp4", "./export/audio.mp3", "./export/video.mp4", None)
