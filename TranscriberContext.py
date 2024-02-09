@@ -1,11 +1,11 @@
 class TranscriberContext:
 
     def __init__(self, url, videoPath=None, audioPath=None, downloadPath=None, transcribeText=None):
-        self.url = None
-        self.videoPath = None
-        self.audioPath = None
-        self.downloadPath = None
-        self.transcribeText = None
+        self.url = url
+        self.videoPath = videoPath
+        self.audioPath = audioPath
+        self.downloadPath = downloadPath
+        self.transcribeText = transcribeText
 
     @staticmethod
     def getContextWithUrl():
