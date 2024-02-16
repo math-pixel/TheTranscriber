@@ -4,27 +4,26 @@ from DLog import *
 
 class InterfaceTranscriber:
 
-    def __init__(self, fileName, callback, model = ""):
+    def __init__(self, fileName, customContext):
 
         self.avaibleModelForTranscriber = [] # avaible model for current AI
-        self.callback = callback # callback after transcribe
-        self.fileName = fileName # url of audio
+        self.callback = customContext.myCallback # callback after transcribe
+        self.model = customContext.myModel
 
-        self.model = None
-
-        self.loadModel(model)
 
     # load model
-    def loadModel(self, model):
+    def loadModel(self):
 
         # test if model is valid
-        if model in self.avaibleModelForTranscriber: 
+        if self.model in self.avaibleModelForTranscriber: 
+            DLog.goodlog(f"model '{ self.model }' loading")
             
             #! ##### load model #####
+            
+            DLog.goodlog(f"model loaded succesfully")
 
-            DLog.goodlog(f"model '{model}' loaded succesfully")
         else:
-            DLog.error(f"Error : model '{model}' not in avaible list !!! \n if you are develloper add it in 'avaibleModelForTranscriber' array of your custom AI")
+            DLog.error(f"Error : model '{self.model}' not in avaible list !!! \n if you are develloper add it in 'avaibleModelForTranscriber' array of your custom AI")
 
 
     # transcribe
