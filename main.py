@@ -1,8 +1,10 @@
-from transcriber.whisperTranscriber import *
+from transcriber.transcriberManager import *
 
-def finished(string):
-    print(string)
 
-myWhisper = Whisper("./export/audio.mp3",finished, "small")
+def myEndedFunctionDamour(result):
+    print(f"result of transcriber : {result}")
 
-# myWhisper.start()
+contextTranscriber = TranscriberContext("small", myEndedFunctionDamour)
+myManager = TranscriberManager()
+myManager.useAI(ListAI.WHISPER, contextTranscriber)
+myManager.transcribe("./export/audio.mp3")
