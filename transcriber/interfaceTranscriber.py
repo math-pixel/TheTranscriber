@@ -1,4 +1,3 @@
-import whisper
 from DLog import *
 
 
