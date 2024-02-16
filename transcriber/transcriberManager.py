@@ -16,24 +16,24 @@ class ListState(Enum):
     TRANSCRIBING = "TRANSCRIBING" 
 
 # ---------------------------------------------------------------------------- #
-#                              Context Transcriber                             #
+#                              Context IATranscriber                             #
 # ---------------------------------------------------------------------------- #
 
 def finished(string):
     print(string)
 
-class TranscriberContext:
+class IATranscriberContext:
     def __init__(self, model, customCallback) -> None:
         self.myModel = model
         self.myCallback = customCallback
 
     @staticmethod
     def whisper():
-        return TranscriberContext(model="small", customCallback=finished)
+        return IATranscriberContext(model="small", customCallback=finished)
     
     # @staticmethod
     # def fasterWhisper():
-    #     return TranscriberContext("172.20.10.2", 8080)
+    #     return IATranscriberContext("172.20.10.2", 8080)
 
 
 # ---------------------------------------------------------------------------- #
