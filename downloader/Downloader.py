@@ -5,7 +5,7 @@ import shutil
 class Downloader:
 
     def __init__(self):
-        self.downloadPath = "../export/video.mp4"
+        self.downloadPath = "./export/video.mp4"
 
     def startDownload():
         pass
