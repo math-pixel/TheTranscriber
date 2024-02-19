@@ -30,6 +30,6 @@ class Whisper(InterfaceTranscriber):
     def transcribe(self, filename):
         try:
             result = self.model.transcribe(filename)
-            self.callback(result["text"])
+            self.callback(result)
         except:
             DLog.error(f"Error : When module trannscribe")

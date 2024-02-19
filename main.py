@@ -4,10 +4,10 @@ from TranscriberContext import *
 tsContext = TranscriberContext.getContextWithVideoAndAudio()
 
 def myEndedFunctionDamour(result):
-    print(f"result of transcriber : {result}")
-    tsContext.transcribeText = result
+    print(f"result of transcriber : {result['text']}")
+    tsContext.transcribeText = result["segments"]
 
-contextTranscriber = IATranscriberContext(tsContext.audioPath, myEndedFunctionDamour)
+contextTranscriber = IATranscriberContext("small", myEndedFunctionDamour)
 myManager = TranscriberManager()
 myManager.useAI(ListAI.WHISPER, contextTranscriber)
-myManager.transcribe("./export/audio.mp3")
+myManager.transcribe(tsContext.audioPath)
