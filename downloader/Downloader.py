@@ -1,6 +1,8 @@
 import subprocess
 import shutil
 
+from DLog import *
+
 
 class Downloader:
 
@@ -18,7 +20,9 @@ class DownloaderYoutube(Downloader):
 
     def startDownload(self, url):
         command = ["youtube-dl", "-o", self.downloadPath, url]
+        DLog.goodlog("Starting Youtube Download")
         subprocess.run(command)
+        DLog.goodlog("Ending Youtube Download")
 
 
 class DownloaderLocal(Downloader):
@@ -27,4 +31,6 @@ class DownloaderLocal(Downloader):
         super().__init__()
 
     def startDownload(self, localPath):
+        DLog.goodlog("Starting Local Download")
         shutil.copy(localPath, self.downloadPath)
+        DLog.goodlog("Ending Local Download")
