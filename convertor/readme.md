@@ -4,6 +4,7 @@
 Windows :
 ```
 pip install python-magic-bin
+pip install moviepy
 ```
 OSX
 ```
