@@ -17,12 +17,12 @@ class ConversionCoordinator:
         needConversion = self.analyzer.analyze(trContext, self.convertor)
         if needConversion:
             DLog.goodlog("Will convert file")
-            trContext.audioPath = self.convertor.convert(trContext)
-            return trContext
+            trContext.audioPath, trContext.videoPath = self.convertor.convert(trContext)
+            return True
         else:
             trContext.audioPath = trContext.inputPath
             DLog.goodlog("Won't convert file")
-            return trContext
+            return False
 
     @staticmethod
     def getConversionCoordinator():

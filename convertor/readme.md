@@ -5,6 +5,7 @@ Windows :
 ```
 pip install python-magic-bin
 pip install moviepy
+pip install pydub
 ```
 OSX
 ```

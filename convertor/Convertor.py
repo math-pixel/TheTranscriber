@@ -3,12 +3,16 @@
 # https://refactoring.guru/fr/design-patterns/strategy
 class Convertor:
     def __init__(self):
-        self.convertStrategy = None
+        self.soundConvertStrategy = None
+        self.videoConvertStrategy = None
         pass
 
-    def setConvertStrategy(self, convertStrategy):
-        self.convertStrategy = convertStrategy
+    def setConvertStrategy(self, soundConvertStrategy, videoConvertStrategy):
+        self.soundConvertStrategy = soundConvertStrategy
+        self.videoConvertStrategy = videoConvertStrategy
         pass
 
     def convert(self, trContext):
-        return self.convertStrategy.executeConversion(trContext)
+        audioPath = self.soundConvertStrategy.executeConversion(trContext)
+        videoPath = self.videoConvertStrategy.executeConversion(trContext)
+        return audioPath, videoPath
