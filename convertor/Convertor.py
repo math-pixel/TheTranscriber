@@ -10,5 +10,5 @@ class Convertor:
         self.convertStrategy = convertStrategy
         pass
 
-    def convert(self, path):
-        return self.convertStrategy.executeConversion(path)
+    def convert(self, trContext):
+        return self.convertStrategy.executeConversion(trContext)
