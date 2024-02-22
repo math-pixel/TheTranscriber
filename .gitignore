@@ -29,3 +29,6 @@ Thumbs.db
 
 # Ignore PyCharm Code settings
 .idea/
+
+# Ignore the output of the convertor
+export/output.mp3

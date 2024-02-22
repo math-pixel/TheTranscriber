@@ -20,9 +20,11 @@ class MP4ToMP3ConvertStrategy(ConvertStrategy):
         # Execute some conversion from MP4 to MP3
         # and return the result path
 
+        DLog.error(trContext.videoPath)
         video_clip = VideoFileClip(trContext.videoPath)
         audio_clip = video_clip.audio
-        audio_clip.write_audiofile(trContext.audioPath)
+        # Set the ouput path like this, temporary
+        audio_clip.write_audiofile("export/output.mp3")
         audio_clip.close()
         video_clip.close()
         
@@ -40,7 +42,8 @@ class AviToMP3ConvertStrategy(ConvertStrategy):
 
         video_clip = VideoFileClip(trContext.videoPath)
         audio_clip = video_clip.audio
-        audio_clip.write_audiofile(trContext.audioPath)
+        # Set the ouput path like this, temporary
+        audio_clip.write_audiofile("export/output.mp3")
         audio_clip.close()
         video_clip.close()
 
