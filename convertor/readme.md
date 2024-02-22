@@ -1,3 +1,21 @@
+# Les libs tiers qu'on utilise : 
+
+### libmagic : 
+Windows :
+```
+pip install python-magic-bin
+```
+OSX
+```
+brew install libmagic
+```
+Ubuntu
+```
+sudo apt-get install libmagic1
+```
+
+# La structure
+
 ## La Classe Convert Coordinator
 
 La classe qui va coordoner un peu tout, c'est celle qu'on instancie si on veut executer une conversion
