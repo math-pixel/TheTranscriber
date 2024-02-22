@@ -1,8 +1,19 @@
-from transcription.TranscriptionController import *
-from DLog import *
+import sys
+from PyQt5.QtWidgets import QApplication
+from UI import *
 
-def callback(result):
-    DLog.goodlog("callback called")
-    DLog.goodlog(f"result of transcriber : {result['text']}")
 
-TranscriptionController.getInstance().startTranscription("https://www.youtube.com/watch?v=z9w6tO4d90U", callback);
+
+if __name__ == '__main__':
+    # Initialise l'application
+    app = QApplication(sys.argv)
+
+    # Crée et affiche la fenêtre
+    # interface = UI()
+
+    
+    interface = UIDragAndDrop()
+    interface.show()
+
+    # Lance l'application
+    sys.exit(app.exec_())
