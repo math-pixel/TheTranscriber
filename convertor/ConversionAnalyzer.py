@@ -7,7 +7,7 @@ class ConversionAnalyzer:
         pass
 
     def analyze(self, trContext, convertor):
-        DLog.goodlog("Start analyze the file: " + path)
+        DLog.goodlog("Start analyze the file: " + ("" if trContext.audioPath == None else trContext.audioPath))
         # - Ce que je fais temporairement
         convertor.setConvertStrategy(MP4ToMP3ConvertStrategy())
 
