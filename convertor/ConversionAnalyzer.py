@@ -8,7 +8,7 @@ class ConversionAnalyzer:
         pass
 
     def analyze(self, trContext, convertor):
-        DLog.goodlog("Start analyze the file")
+        DLog.goodlog("Start analyze the file: " + ("" if trContext.audioPath == None else trContext.audioPath))
         # If we don't have audio path we must check how to convert
         if trContext.audioPath != None :
             return False;
@@ -27,7 +27,6 @@ class ConversionAnalyzer:
             return True;
         else :
             DLog.error("videoPath of trContext isn't convertible.")
-
         return False
 
     
