@@ -28,6 +28,9 @@ class ConversionAnalyzer:
         elif file_type == "audio/mpeg":
             # don't need a conversion, we can directly take the input path in that case
             return False;
+        elif file_type == "audio/wav":
+            convertor.setConvertStrategy(WavToMP3ConvertStrategy())
+            return True;
         else :
             DLog.error("inputPath of trContext isn't convertible.")
         
