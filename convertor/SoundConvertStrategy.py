@@ -11,6 +11,15 @@ class SoundConvertStrategy:
         DLog.warning("Execute conversion")
         pass
 
+class DefaultSoundConvertStrategy(SoundConvertStrategy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+    def executeConversion(self, trContext):
+        super().executeConversion(trContext)
+        pass
+
 class MP4ToMP3ConvertStrategy(SoundConvertStrategy):
     def __init__(self):
         super().__init__()
@@ -57,3 +66,12 @@ class WavToMP3ConvertStrategy(SoundConvertStrategy):
         sound.export("export/output.mp3", format="mp3")
 
         return "export/output.mp3"
+
+class MP3ToMP3ConvertStrategy(SoundConvertStrategy):
+    def __init__(self):
+        super().__init__()
+        pass
+
+    def executeConversion(self, trContext):
+        super().executeConversion(trContext)
+        return trContext.inputPath

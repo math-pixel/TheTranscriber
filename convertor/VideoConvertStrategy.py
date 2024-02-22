@@ -10,7 +10,7 @@ class VideoConvertStrategy:
         DLog.warning("Execute conversion")
         pass
 
-class NoneConvertStrategy(VideoConvertStrategy):
+class DefaultVideoConvertStrategy(VideoConvertStrategy):
     def __init__(self):
         super().__init__()
         pass

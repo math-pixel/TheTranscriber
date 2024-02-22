@@ -21,16 +21,18 @@ class ConversionAnalyzer:
             DLog.error("File doesn't have a mime type ? Check if the file you wan't to analyze exist")
 
         if file_type == "video/mp4":
-            convertor.setConvertStrategy(MP4ToMP3ConvertStrategy(), MP4ToMP4ConvertStrategy())
+            convertor.setSoundConvertStrategy(MP4ToMP3ConvertStrategy())
+            convertor.setVideoConvertStrategy(MP4ToMP4ConvertStrategy())
             return True 
         elif file_type == "video/x-msvideo": # AVI
-            convertor.setConvertStrategy(AviToMP3ConvertStrategy(), AviToMP4ConvertStrategy())
+            convertor.setSoundConvertStrategy(AviToMP3ConvertStrategy())
+            convertor.setVideoConvertStrategy(AviToMP4ConvertStrategy())
             return True 
         elif file_type == "audio/mpeg":
-            # don't need a conversion, we can directly take the input path in that case
-            return False 
+            convertor.setSoundConvertStrategy(MP3ToMP3ConvertStrategy())
+            return True 
         elif file_type == "audio/x-wav":
-            convertor.setConvertStrategy(WavToMP3ConvertStrategy(), NoneConvertStrategy())
+            convertor.setSoundConvertStrategy(WavToMP3ConvertStrategy())
             return True 
         else :
             DLog.error("inputPath of trContext isn't convertible.")

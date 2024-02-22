@@ -14,14 +14,12 @@ class ConversionCoordinator:
     def convert(self, trContext):
         # Ici on va 'set' comment est ce que le convertor va convertir le trContext (genre mp4 to mp3 ou jsp)
         # Et si la conversion doit ou non être réaliser
-        needConversion = self.analyzer.analyze(trContext, self.convertor)
-        if needConversion:
-            DLog.goodlog("Will convert file")
+        canConversion = self.analyzer.analyze(trContext, self.convertor)
+        if canConversion:
             trContext.audioPath, trContext.videoPath = self.convertor.convert(trContext)
             return True
         else:
-            trContext.audioPath = trContext.inputPath
-            DLog.goodlog("Won't convert file")
+            DLog.error("/!\ == FATAL: can't convert file, verify if the file is convertible by the program")
             return False
 
     @staticmethod
