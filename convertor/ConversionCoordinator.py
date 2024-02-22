@@ -2,6 +2,7 @@ from convertor.Convertor import *
 from convertor.ConversionAnalyzer import *
 from DLog import *
 
+
 class ConversionCoordinator:
     def __init__(self, analyzer, convertor):
         self.analyzer = analyzer
@@ -15,10 +16,11 @@ class ConversionCoordinator:
         # Et si la conversion doit ou non être réaliser
         needConversion = self.analyzer.analyze(trContext, self.convertor)
         if needConversion:
-            DLog.goodlog("Will convert file : " + trContext)
-            return self.convertor.convert(trContext)
+            DLog.goodlog("Will convert file")
+            self.convertor.convert(trContext)
+            return trContext
         else:
-            DLog.goodlog("Won't convert file : " + trContext)
+            DLog.goodlog("Won't convert file")
             return trContext
 
     @staticmethod
