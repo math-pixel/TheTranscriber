@@ -20,6 +20,10 @@ class TranscriberContext:
         return TranscriberContext("https://www.youtube.com/watch?v=z9w6tO4d90U", "./export/video.mp4", "./export/video.mp4", "./export/audio.mp3", None)
 
     @staticmethod
+    def getContextWithInputAudio():
+        return TranscriberContext("https://www.youtube.com/watch?v=z9w6tO4d90U", "./export/audio.mp3", None, None, None)
+
+    @staticmethod
     def getContextWithFull():
         # Add Text went convert for the first time
         return TranscriberContext("https://www.youtube.com/watch?v=z9w6tO4d90U", "./export/video.mp4", "./export/video.mp3", "./export/audio.mp4", None)
