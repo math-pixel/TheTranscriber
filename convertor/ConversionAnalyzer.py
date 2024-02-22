@@ -22,7 +22,7 @@ class ConversionAnalyzer:
         if file_type == "video/mp4":
             convertor.setConvertStrategy(MP4ToMP3ConvertStrategy())
             return True;
-        elif file_type == "video/avi":
+        elif file_type == "video/x-msvideo":
             convertor.setConvertStrategy(AviToMP3ConvertStrategy())
             return True;
         else :
