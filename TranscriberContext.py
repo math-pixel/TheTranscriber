@@ -1,6 +1,6 @@
 class TranscriberContext:
 
-    def __init__(self, url, inputPath=None, videoPath=None, audioPath=None, transcribeText=None):
+    def __init__(self, url, inputPath=None, videoPath="./export/video.mp4", audioPath=None, transcribeText=None):
         self.url = url
         self.inputPath = inputPath
         self.videoPath = videoPath
