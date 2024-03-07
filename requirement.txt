@@ -1,4 +1,4 @@
-enum
 openai-whisper==20231117
-time
-inspect
+moviepy==1.0.3
+pydub==0.25.1
+python-magic-bin==0.4.14

@@ -1,53 +1,36 @@
-# Les libs tiers qu'on utilise : 
+# The Structure
 
-### libmagic : 
-Windows :
-```
-pip install python-magic-bin
-pip install moviepy
-pip install pydub
-```
-OSX
-```
-brew install libmagic
-```
-Ubuntu
-```
-sudo apt-get install libmagic1
-```
+## The Convert Coordinator Class
 
-# La structure
-
-## La Classe Convert Coordinator
-
-La classe qui va coordoner un peu tout, c'est celle qu'on instancie si on veut executer une conversion
+This is the class that will coordinate everything; it's the one we instantiate if we want to execute a conversion.
 
 ---
 
-## La Classe Conversion Analyzer
+## The Conversion Analyzer Class
 
-#### Pourquoi pas une classe Analyzer et pas Conversion Analyzer ?
-J'imagineais qu'il était possible qu'on ait à rajouter un Analyzer dans une autre partie de l'application, donc définir simplement cette class comme un Analyzer de façon plus générique pourrait poser soucis si on devait, par exemple, analyzer l'url au tout début
+#### Why not just an Analyzer class instead of Conversion Analyzer?
+I imagined that it might be necessary to add an Analyzer in another part of the application, so simply defining this class as an Analyzer in a more generic way could cause issues if we had to, for example, analyze the URL at the very beginning.
 
-#### Ça fé quoi
-Le but de la classe est d'analyzer le "path" du fichier (donc le fichier) afin de définir la stratégie que le Convertor va utiliser pour convertir le fichier en question
-
----
-
-## La Classe Convertor
-
-#### Convertor Strategie hmmm
-La classe convertor contient une stratégie, c'est celle qui sera executé lorsqu'on veut convertir, par contre, ce n'est pas la classe convertor qui set la stratégie mais la classe juste en dessous dans le readme (la classe Conversion Analyzer un peu)
+#### What does it do
+The purpose of the class is to analyze the "path" of the file (hence the file) to determine the strategy that the Convertor will use to convert the said file.
 
 ---
 
-## La Classe Convertor Strategie
+## The Convertor Class
 
-#### Aheum ?
-Le but c'est d'avoir un "protocole" qui va permettre de définir pleins de stratégies, et à partir de ça, on va pouvoir l'executer et elle fera des trucs différents en fonction de ce qu'elle est (genre si elle est MP4ToMP3 elle fait des trucs de mp4 to mp3 quoi)
+#### Convertor Strategy, hmm?
+The Convertor class contains a strategy, which will be executed when we want to convert. However, it is not the Convertor class that sets the strategy but rather the class just below in the README (the Conversion Analyzer class, somewhat).
 
 ---
 
-## Le UaImAiLeuh (UML)
+## The Convertor Strategy Class
 
-C'est peut être pas le meilleur des UML, si y a des questions sur la clarté de ce machin, 0 soucis bahaha 
+#### Ahem?
+The goal is to have a "protocol" that will allow defining many strategies, and from there, we can execute it, and it will do different things depending on what it is (like if it's MP4ToMP3, it does stuff related to converting MP4 to MP3).
+
+---
+
+## The UaImAiLeuh (UML)
+
+It may not be the best UML; if there are questions about the clarity of this thing, no worries, haha.
+![](./'uml'rig_convertor.png)
