@@ -1,8 +1,33 @@
+# How to use ?
+
+## The base : 
+
+### Basic example
+Basically, you will need a TranscriberContext instance
+```
+# TranscriberContext.getContextWithVideo() is the factory function to get a transcriber context with a video for example
+trContextVideoInput = TranscriberContext.getContextWithVideo()
+
+# ConversionCoordinator.getConversionCoordinator() is a factory function that return a  basic ConversionCoordinator instance with the basic
+converterCoordinator = ConversionCoordinator.getConversionCoordinator()
+
+# ConversionCoordinator.convert() will return the trContext with some field updated
+conversionResult = converterCoordinator.convert(trContextVideoInput)
+```
+
+### More explanation
+ConversionCoordinator is the main object that will convert the TranscriberContext, 
+we don't really need more explanation
+```
+ConversionCoordinator.convert(TranscriberContext)
+```
+
 # The Structure
 
 ## The Convert Coordinator Class
 
 This is the class that will coordinate everything; it's the one we instantiate if we want to execute a conversion.
+
 
 ---
 
