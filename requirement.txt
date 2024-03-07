@@ -1,0 +1,4 @@
+enum
+openai-whisper==20231117
+time
+inspect
