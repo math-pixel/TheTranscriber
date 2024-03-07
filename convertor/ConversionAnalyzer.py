@@ -3,7 +3,7 @@ from convertor.SoundConvertStrategy import *
 from convertor.VideoConvertStrategy import *
 import magic
 
-
+# This class analyze the file type to determine which strategy the convertor will use
 class ConversionAnalyzer:
     def __init__(self):
         pass
@@ -18,7 +18,7 @@ class ConversionAnalyzer:
         file_type = self.get_file_type(trContext.inputPath) 
         DLog.goodlog(f"File type of the input : {file_type}")
         if file_type == None :
-            DLog.error("File doesn't have a mime type ? Check if the file you wan't to analyze exist")
+            DLog.error("File doesn't have a mime type ? Check that the file you want to analyze exists")
 
         if file_type == "video/mp4":
             convertor.setSoundConvertStrategy(MP4ToMP3ConvertStrategy())
