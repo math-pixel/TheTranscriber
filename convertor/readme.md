@@ -1,61 +1,93 @@
-# How to use ?
+# Documentation for Functionality
 
-## The base : 
+This documentation provides an overview of the functionality and usage of the provided feature. The feature facilitates the conversion of audio and video files using various strategies based on file types.
 
-### Basic example
-Basically, you will need a TranscriberContext instance
-```
-# TranscriberContext.getContextWithVideo() is the factory function to get a transcriber context with a video for example
+## Usage
+
+To utilize the functionality, follow the steps below:
+
+1. **Import Required Modules:**
+
+    ```python
+    from convertor.ConversionCoordinator import *
+    from TranscriberContext import *
+    ```
+
+2. **Create Transcriber Context:**
+
+    ```python
+    trContextVideoInput = TranscriberContext.getContextWithVideo()
+    ```
+
+3. **Initialize Conversion Coordinator:**
+
+    ```python
+    converterCoordinator = ConversionCoordinator.getConversionCoordinator()
+    ```
+
+4. **Perform Conversion:**
+
+    ```python
+    wasConverted = converterCoordinator.convert(trContextVideoInput)
+    ```
+
+## Files and Classes
+
+### ConversionCoordinator
+
+- **Purpose:** Coordinates analysis and conversion of files.
+- **Usage:** Responsible for setting strategies and executing conversions.
+
+### ConversionAnalyzer
+
+- **Purpose:** Analyzes file types to determine conversion strategies.
+- **Usage:** Analyzes file types and sets conversion strategies accordingly.
+
+### Convertor
+
+- **Purpose:** Converts files based on specified strategies.
+- **Usage:** Executes the conversion process using predefined strategies.
+
+### VideoConvertStrategy
+
+- **Purpose:** Implements strategies for video file conversion.
+- **Usage:** Defines strategies for converting various video formats.
+
+### SoundConvertStrategy
+
+- **Purpose:** Implements strategies for audio file conversion.
+- **Usage:** Defines strategies for converting different audio formats.
+
+
+## Class Diagram
+
+<p align="center">
+  <img src="convertor_class_diagram.png" alt="Class Diagram of The Convertor">
+</p>
+
+## Example
+
+```python
+from convertor.ConversionCoordinator import *
+from TranscriberContext import *
+
+# Create a Transcriber Context with video input
 trContextVideoInput = TranscriberContext.getContextWithVideo()
 
-# ConversionCoordinator.getConversionCoordinator() is a factory function that return a  basic ConversionCoordinator instance with the basic
+# Initialize Conversion Coordinator
 converterCoordinator = ConversionCoordinator.getConversionCoordinator()
 
-# ConversionCoordinator.convert() will return the trContext with some field updated
-conversionResult = converterCoordinator.convert(trContextVideoInput)
+# Perform conversion
+wasConverted = converterCoordinator.convert(trContextVideoInput)
 ```
 
-### More explanation
-ConversionCoordinator is the main object that will convert the TranscriberContext, 
-we don't really need more explanation
-```
-ConversionCoordinator.convert(TranscriberContext)
-```
+## Notes
 
-# The Structure
+- Ensure all required modules are installed (**`moviepy`**, **`pydub`**, etc.).
+- Verify file paths and types before conversion.
+- Customize strategies and error handling as needed.
 
-## The Convert Coordinator Class
+## Contributors
 
-This is the class that will coordinate everything; it's the one we instantiate if we want to execute a conversion.
-
-
----
-
-## The Conversion Analyzer Class
-
-#### Why not just an Analyzer class instead of Conversion Analyzer?
-I imagined that it might be necessary to add an Analyzer in another part of the application, so simply defining this class as an Analyzer in a more generic way could cause issues if we had to, for example, analyze the URL at the very beginning.
-
-#### What does it do
-The purpose of the class is to analyze the "path" of the file (hence the file) to determine the strategy that the Convertor will use to convert the said file.
-
----
-
-## The Convertor Class
-
-#### Convertor Strategy, hmm?
-The Convertor class contains a strategy, which will be executed when we want to convert. However, it is not the Convertor class that sets the strategy but rather the class just below in the README (the Conversion Analyzer class, somewhat).
-
----
-
-## The Convertor Strategy Class
-
-#### Ahem?
-The goal is to have a "protocol" that will allow defining many strategies, and from there, we can execute it, and it will do different things depending on what it is (like if it's MP4ToMP3, it does stuff related to converting MP4 to MP3).
-
----
-
-## The UaImAiLeuh (UML)
-
-It may not be the best UML; if there are questions about the clarity of this thing, no worries, haha.
-![](./'uml'rig_convertor.png)
+- Ethan Carollo
+- Emmanuel Moulin
