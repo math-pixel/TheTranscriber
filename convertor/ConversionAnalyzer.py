@@ -19,7 +19,7 @@ class ConversionAnalyzer:
         DLog.goodlog(f"File type of the input : {file_type}")
         if file_type == None :
             DLog.error("File doesn't have a mime type ? Check if the file you wan't to analyze exist")
-
+            
         if file_type == "video/mp4":
             convertor.setSoundConvertStrategy(MP4ToMP3ConvertStrategy())
             convertor.setVideoConvertStrategy(MP4ToMP4ConvertStrategy())
