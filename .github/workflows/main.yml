@@ -1,0 +1,43 @@
+name: Transcriber Test
+
+on:
+  push:
+    branches:
+      - "dev"
+      - "main"
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libmagic1
+          sudo apt-get install libmagic-dev
+          sudo apt-get install youtube-dl
+          sudo apt install ffmpeg
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip3 install openai-whisper
+          pip install -r requirements.txt
+
+      - name: Run Convertor tests
+        run: python -m tests.ConvertorTest
+
+      - name: Run Transcriber tests
+        run: python -m tests.TranscriberTest
+
+      - name: Run Downloader tests
+        run: python -m tests.DownloaderTest

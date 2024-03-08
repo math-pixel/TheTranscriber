@@ -15,6 +15,10 @@ class DLog:
         pass
 
     @staticmethod
+    def exception(message):
+        raise(DLog.buildStr(message, DLog.RED))
+
+    @staticmethod
     def goodbiglog(message):
         space = '='*len(message)
         print(DLog.buildStr(space, DLog.GREEN))
