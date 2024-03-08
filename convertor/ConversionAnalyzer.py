@@ -8,14 +8,15 @@ class ConversionAnalyzer:
     def __init__(self):
         pass
 
-    def analyze(self, trContext, convertor):
+    @staticmethod
+    def analyze(trContext, convertor):
         DLog.goodlog("Start analyze the file")
         # If we don't have audio path we must check how to convert
         if trContext.audioPath != None :
             return False 
 
         # Verify the mime type of the file
-        file_type = self.get_file_type(trContext.inputPath) 
+        file_type = ConversionAnalyzer.get_file_type(trContext.inputPath) 
         DLog.goodlog(f"File type of the input : {file_type}")
         if file_type == None :
             DLog.error("File doesn't have a mime type ? Check that the file you want to analyze exists")
@@ -39,8 +40,8 @@ class ConversionAnalyzer:
         
         return False
 
-    
-    def get_file_type(self, videoPath):
+    @staticmethod
+    def get_file_type(videoPath):
         # Try catch lol
         try:
             mime = magic.Magic(mime=True)
