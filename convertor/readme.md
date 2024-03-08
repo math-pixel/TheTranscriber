@@ -1,36 +1,93 @@
-# The Structure
+# Documentation for Functionality
 
-## The Convert Coordinator Class
+This documentation provides an overview of the functionality and usage of the provided feature. The feature facilitates the conversion of audio and video files using various strategies based on file types.
 
-This is the class that will coordinate everything; it's the one we instantiate if we want to execute a conversion.
+## Usage
 
----
+To utilize the functionality, follow the steps below:
 
-## The Conversion Analyzer Class
+1. **Import Required Modules:**
 
-#### Why not just an Analyzer class instead of Conversion Analyzer?
-I imagined that it might be necessary to add an Analyzer in another part of the application, so simply defining this class as an Analyzer in a more generic way could cause issues if we had to, for example, analyze the URL at the very beginning.
+    ```python
+    from convertor.ConversionCoordinator import *
+    from TranscriberContext import *
+    ```
 
-#### What does it do
-The purpose of the class is to analyze the "path" of the file (hence the file) to determine the strategy that the Convertor will use to convert the said file.
+2. **Create Transcriber Context:**
 
----
+    ```python
+    trContextVideoInput = TranscriberContext.getContextWithVideo()
+    ```
 
-## The Convertor Class
+3. **Initialize Conversion Coordinator:**
 
-#### Convertor Strategy, hmm?
-The Convertor class contains a strategy, which will be executed when we want to convert. However, it is not the Convertor class that sets the strategy but rather the class just below in the README (the Conversion Analyzer class, somewhat).
+    ```python
+    converterCoordinator = ConversionCoordinator.getConversionCoordinator()
+    ```
 
----
+4. **Perform Conversion:**
 
-## The Convertor Strategy Class
+    ```python
+    wasConverted = converterCoordinator.convert(trContextVideoInput)
+    ```
 
-#### Ahem?
-The goal is to have a "protocol" that will allow defining many strategies, and from there, we can execute it, and it will do different things depending on what it is (like if it's MP4ToMP3, it does stuff related to converting MP4 to MP3).
+## Files and Classes
 
----
+### ConversionCoordinator
 
-## The UaImAiLeuh (UML)
+- **Purpose:** Coordinates analysis and conversion of files.
+- **Usage:** Responsible for setting strategies and executing conversions.
 
-It may not be the best UML; if there are questions about the clarity of this thing, no worries, haha.
-![](./'uml'rig_convertor.png)
+### ConversionAnalyzer
+
+- **Purpose:** Analyzes file types to determine conversion strategies.
+- **Usage:** Analyzes file types and sets conversion strategies accordingly.
+
+### Convertor
+
+- **Purpose:** Converts files based on specified strategies.
+- **Usage:** Executes the conversion process using predefined strategies.
+
+### VideoConvertStrategy
+
+- **Purpose:** Implements strategies for video file conversion.
+- **Usage:** Defines strategies for converting various video formats.
+
+### SoundConvertStrategy
+
+- **Purpose:** Implements strategies for audio file conversion.
+- **Usage:** Defines strategies for converting different audio formats.
+
+
+## Class Diagram
+
+<p align="center">
+  <img src="convertor_class_diagram.png" alt="Class Diagram of The Convertor">
+</p>
+
+## Example
+
+```python
+from convertor.ConversionCoordinator import *
+from TranscriberContext import *
+
+# Create a Transcriber Context with video input
+trContextVideoInput = TranscriberContext.getContextWithVideo()
+
+# Initialize Conversion Coordinator
+converterCoordinator = ConversionCoordinator.getConversionCoordinator()
+
+# Perform conversion
+wasConverted = converterCoordinator.convert(trContextVideoInput)
+```
+
+## Notes
+
+- Ensure all required modules are installed (**`moviepy`**, **`pydub`**, etc.).
+- Verify file paths and types before conversion.
+- Customize strategies and error handling as needed.
+
+## Contributors
+
+- Ethan Carollo
+- Emmanuel Moulin

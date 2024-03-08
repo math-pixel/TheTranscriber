@@ -1,8 +1,9 @@
 from convertor.SoundConvertStrategy import *
 from convertor.VideoConvertStrategy import *
 
-# Ici on s'inspire du design pattern Strategy :
-# https://refactoring.guru/fr/design-patterns/strategy
+# This class convert file according to its strategy
+# There is two types of conversion : video conversion and audio conversion
+# https://refactoring.guru/design-patterns/strategy
 class Convertor:
     def __init__(self):
         self.soundConvertStrategy = DefaultSoundConvertStrategy()
@@ -15,6 +16,8 @@ class Convertor:
     def setSoundConvertStrategy(self, soundConvertStrategy):
         self.soundConvertStrategy = soundConvertStrategy
 
+    # This method convert file from inputPath of transcriber context 
+    # and returns the new path of audio and video with the correct format
     def convert(self, trContext):
         audioPath = self.soundConvertStrategy.executeConversion(trContext)
         videoPath = self.videoConvertStrategy.executeConversion(trContext)
