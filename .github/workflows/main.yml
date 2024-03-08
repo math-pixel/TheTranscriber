@@ -1,9 +1,10 @@
-name: Python Script
+name: Transcriber Test
 
 on:
   push:
     branches:
-      - "*"
+      - "dev"
+      - "main"
 
 jobs:
   run-script:
@@ -18,6 +19,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libmagic1
           sudo apt-get install libmagic-dev
+          sudo apt-get install youtube-dl
           sudo apt install ffmpeg
 
       - name: Set up Python
@@ -31,5 +33,11 @@ jobs:
           pip3 install openai-whisper
           pip install -r requirements.txt
 
-      - name: Run Python script
-        run: python ./test.py
+      - name: Run Convertor tests
+        run: python -m tests.ConvertorTest
+
+      - name: Run Transcriber tests
+        run: python -m tests.TranscriberTest
+
+      - name: Run Downloader tests
+        run: python -m tests.DownloaderTest
