@@ -1,4 +1,4 @@
 openai-whisper==20231117
 moviepy==1.0.3
 pydub==0.25.1
-python-magic-bin==0.4.14
+python-magic==0.4.27

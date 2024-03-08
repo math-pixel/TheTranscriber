@@ -3,7 +3,6 @@ from TranscriberContext import *
 import time
 
 
-
 def testConversion(transcriberContext, testName):
     DLog.goodbiglog(f"==========TEST : {testName} STARTED==========")
     try:
@@ -16,10 +15,10 @@ def testConversion(transcriberContext, testName):
         DLog.errorbiglog(f"==========TEST : {testName} ERROR==========")
 
 
-time.sleep(2)
-trContextAudioInput = TranscriberContext.getContextWithInputAudio()
-testConversion(trContextAudioInput, "Transcriber with audio")
-time.sleep(2)
-trContextVideoInput = TranscriberContext.getContextWithVideo()
-trContextVideoInput.audioPath = None
-testConversion(trContextVideoInput, "Transcriber without audio path")
+def launchTest():
+    trContextAudioInput = TranscriberContext.getContextWithInputAudio()
+    testConversion(trContextAudioInput, "Transcriber with audio")
+    time.sleep(2)
+    trContextVideoInput = TranscriberContext.getContextWithVideo()
+    trContextVideoInput.audioPath = None
+    testConversion(trContextVideoInput, "Transcriber without audio path")
