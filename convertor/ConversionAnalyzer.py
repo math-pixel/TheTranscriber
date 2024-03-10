@@ -1,6 +1,8 @@
 from DLog import *
-from convertor.SoundConvertStrategy import *
-from convertor.VideoConvertStrategy import *
+from convertor.convertorStrategy.SoundConvertStrategy import *
+from convertor.convertorStrategy.VideoConvertStrategy import *
+from convertor.Convertor import Convertor
+from TranscriberContext import TranscriberContext
 import magic
 
 # This class analyze the file type to determine which strategy the convertor will use
@@ -9,12 +11,24 @@ class ConversionAnalyzer:
         pass
 
     @staticmethod
-    def analyze(trContext, convertor):
-        DLog.goodlog("Start analyze the file")
-        # If we don't have audio path we must check how to convert
-        if trContext.audioPath != None :
-            return False 
+    def analyze(trContext:TranscriberContext, convertor:Convertor) -> bool:
+        """
+        This method is used to analyze the file and set the strategy to use for the convertor.
+        
+        Args: 
+            trContext (TranscriberContext): Main object with data use for download, convert and transcribe.
+            convertor (Convertor): Object use to convert files based on specified strategies.
 
+        Returns:
+            bool: This boolean determine if the file is able to convert.
+        """
+
+        # If there is not an input path, we can not convert the file
+        if trContext.inputPath is None:
+            DLog.error(f"The input path is None. Check that you have provided a valid input path.")
+            return False
+
+        DLog.goodlog("Start analyze the file")
         # Verify the mime type of the file
         file_type = ConversionAnalyzer.get_file_type(trContext.inputPath) 
         DLog.goodlog(f"File type of the input : {file_type}")
@@ -36,16 +50,21 @@ class ConversionAnalyzer:
             convertor.setSoundConvertStrategy(WavToMP3ConvertStrategy())
             return True 
         else :
-            DLog.error("inputPath of trContext isn't convertible.")
+            DLog.error("The input path of transcriber context isn't convertible.")
         
         return False
 
     @staticmethod
-    def get_file_type(videoPath):
-        # Try catch lol
+    def get_file_type(filePath):
+        """
+        This method determine the file type using its mime type.
+        
+        Args: 
+            filePath (str): This string is the file path of the file that you want to determine.
+        """
         try:
             mime = magic.Magic(mime=True)
-            file_type = mime.from_file(videoPath)
+            file_type = mime.from_file(filePath)
             return file_type
         except Exception as e:
             DLog.error(f"An error occurred in the analyze of the file : {e}")
