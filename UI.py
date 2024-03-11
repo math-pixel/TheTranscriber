@@ -1,11 +1,15 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtGui import QDragEnterEvent, QDropEvent
+
+from StatePage import *
 
 
 
 class DragAndDrop(QWidget):
     def __init__(self):
         super().__init__()
+        self.setAcceptDrops(True)
         
         self.textColor = "#fff"
         self.url = ""
@@ -55,6 +59,27 @@ class DragAndDrop(QWidget):
 
 
 
+    # ---------------------------------------------------------------------------- #
+    #                               Drag and Drop events                           #
+    # ---------------------------------------------------------------------------- #
+    def dragEnterEvent(self, event: QDragEnterEvent):
+        mime_data = event.mimeData()
+
+        if mime_data.hasUrls() and len(mime_data.urls()) == 1:
+            # Vérifiez si l'URL est un fichier vidéo (vous pouvez ajouter plus de vérifications)
+            url = mime_data.urls()[0]
+            if url.isLocalFile() and url.toString().endswith(('.mp4', '.avi', '.mkv')):
+                event.acceptProposedAction()
+
+    def dropEvent(self, event: QDropEvent):
+        url = event.mimeData().urls()[0]
+        file_path = url.toLocalFile()
+
+        self.url = file_path
+        self.nextPage()
+        # Ajoutez ici le code pour traiter le fichier vidéo (par exemple, jouer la vidéo)
+        print(f"Fichier vidéo ajouté : {file_path}")
+
 
     # ---------------------------------------------------------------------------- #
     #                                     Event                                    #
@@ -62,10 +87,6 @@ class DragAndDrop(QWidget):
     def buttonClicked(self, url):
         self.url = url
         self.nextPage()
-    
-    
-    def dropped(self, path):
-        self.url = path
     
     
     def nextPage(self):
@@ -76,15 +97,19 @@ class DragAndDrop(QWidget):
 
 
 
-class UIDragAndDrop(QWidget):
+
+# ---------------------------------------------------------------------------- #
+#                                    Window                                    #
+# ---------------------------------------------------------------------------- #
+class UIDragAndDrop(StatePage):
     def __init__(self):
         super().__init__()
+
+        self.current_state = StateDragPage(self, self)
         
-        # Configure la fenêtre principale
         self.setWindowTitle("Interface")
         self.resize(1280, 556)
         self.center()
-        
 
         self.dragDiv = DragAndDrop()
         
@@ -93,7 +118,7 @@ class UIDragAndDrop(QWidget):
 
         self.setLayout(hLayout)
 
-        
+    
     
     def center(self):
         qr = self.frameGeometry()
@@ -102,9 +127,30 @@ class UIDragAndDrop(QWidget):
         self.move(qr.topLeft())
 
 
+    
+    # ---------------------------------------------------------------------------- #
+    #                                    States                                    #
+    # ---------------------------------------------------------------------------- #
+    
+    
+    def showDragPage(self):
+        self.current_state.showDragPage()
+    
+    def showLoadingPage(self):
+        self.current_state.showLoadingPage()
 
+    def showResultPage(self):
+        self.current_state.showResultPage()
 
-
+    
+    
+    # ---------------------------------------------------------------------------- #
+    #                                 Update State                                 #
+    # ---------------------------------------------------------------------------- #
+    def updateState(self, new_state):
+        print(f"Previous state: {self.current_state}")
+        self.current_state = new_state
+        print(f"New state: {new_state}")
 
 
 

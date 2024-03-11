@@ -14,6 +14,7 @@ if __name__ == '__main__':
     
     interface = UIDragAndDrop()
     interface.show()
+    
 
     # Lance l'application
     sys.exit(app.exec_())
