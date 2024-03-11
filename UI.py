@@ -101,12 +101,10 @@ class DragAndDrop(QWidget):
 # ---------------------------------------------------------------------------- #
 #                                    Window                                    #
 # ---------------------------------------------------------------------------- #
-class UIDragAndDrop(StatePage):
+class UIDragAndDrop(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.current_state = StateDragPage(self, self)
-        
         self.setWindowTitle("Interface")
         self.resize(1280, 556)
         self.center()
@@ -133,14 +131,14 @@ class UIDragAndDrop(StatePage):
     # ---------------------------------------------------------------------------- #
     
     
-    def showDragPage(self):
-        self.current_state.showDragPage()
+    # def showDragPage(self):
+    #     self.current_state.showDragPage()
     
-    def showLoadingPage(self):
-        self.current_state.showLoadingPage()
+    # def showLoadingPage(self):
+    #     self.current_state.showLoadingPage()
 
-    def showResultPage(self):
-        self.current_state.showResultPage()
+    # def showResultPage(self):
+    #     self.current_state.showResultPage()
 
     
     
