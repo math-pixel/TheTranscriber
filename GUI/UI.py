@@ -2,12 +2,12 @@ from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
 
-from StatePage import *
+import threading
 
 
 
 class DragAndDrop(QWidget):
-    def __init__(self):
+    def __init__(self, callback):
         super().__init__()
         self.setAcceptDrops(True)
         
@@ -21,6 +21,7 @@ class DragAndDrop(QWidget):
         self.divWidget.setContentsMargins(50, 50, 50, 50)
         self.divWidget.setStyleSheet(f"background-color: #A8DD9B; border-radius: 20px; font-size:20px; color: {self.textColor};")
 
+        self.callback = callback
 
         # ---------------------------------------------------------------------------- #
         #                                  Adding text                                 #
@@ -92,9 +93,9 @@ class DragAndDrop(QWidget):
     def nextPage(self):
         print("page suivante")
         print(self.url)
-
-
-
+        
+        thread = threading.Thread(target=self.callback, args=(self.url,)) # args=(self.url -->,<-- IMPORTANT
+        thread.start()
 
 
 
@@ -102,14 +103,14 @@ class DragAndDrop(QWidget):
 #                                    Window                                    #
 # ---------------------------------------------------------------------------- #
 class UIDragAndDrop(QWidget):
-    def __init__(self):
+    def __init__(self, callback):
         super().__init__()
 
         self.setWindowTitle("Interface")
         self.resize(1280, 556)
         self.center()
 
-        self.dragDiv = DragAndDrop()
+        self.dragDiv = DragAndDrop(callback)
         
         hLayout = QHBoxLayout()
         hLayout.addWidget(self.dragDiv) 
@@ -124,40 +125,5 @@ class UIDragAndDrop(QWidget):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-
-    
-    # ---------------------------------------------------------------------------- #
-    #                                    States                                    #
-    # ---------------------------------------------------------------------------- #
-    
-    
-    # def showDragPage(self):
-    #     self.current_state.showDragPage()
-    
-    # def showLoadingPage(self):
-    #     self.current_state.showLoadingPage()
-
-    # def showResultPage(self):
-    #     self.current_state.showResultPage()
-
-    
-    
-    # ---------------------------------------------------------------------------- #
-    #                                 Update State                                 #
-    # ---------------------------------------------------------------------------- #
-    def updateState(self, new_state):
-        print(f"Previous state: {self.current_state}")
-        self.current_state = new_state
-        print(f"New state: {new_state}")
-
-
-
-
-
-
-
-class UI:
-    def __init__(self) -> None:
-        pass
 
 

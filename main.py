@@ -1,20 +1,31 @@
-import sys
-from PyQt5.QtWidgets import QApplication
-from UI import *
+from TranscriberContext import *
+from downloader.DownloaderManager import *
+from convertor.ConversionCoordinator import *
+from transcriber.transcriberManager import *
+from GUI.mainUI import *
+
+# transcriberContext = TranscriberContext.getContextWithUrl()
 
 
-
-if __name__ == '__main__':
-    # Initialise l'application
-    app = QApplication(sys.argv)
-
-    # Crée et affiche la fenêtre
-    # interface = UI()
-
+def lauchOtherScripts(url):
     
-    interface = UIDragAndDrop()
-    interface.show()
-    
+    transcriberContext = TranscriberContext(url)
 
-    # Lance l'application
-    sys.exit(app.exec_())
+    downloaderManager = DownloaderManager()
+    downloaderManager.startDownload(transcriberContext)
+
+    converterCoordinator = ConversionCoordinator.getConversionCoordinator()
+    conversionResult = converterCoordinator.convert(transcriberContext)
+
+    def myEndedFunctionDamour(result):
+        print(f"result of transcriber : {result['text']}")
+        tsContext.transcribeText = result["segments"]
+
+
+    contextTranscriber = IATranscriberContext("small", myEndedFunctionDamour)
+    myManager = TranscriberManager()
+    myManager.useAI(ListAI.WHISPER, contextTranscriber)
+    myManager.transcribe(transcriberContext.audioPath)
+
+
+startUI(lauchOtherScripts)
