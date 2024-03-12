@@ -1,5 +1,6 @@
 class TranscriberContext:
 
+    # We will need to clean these fields
     def __init__(self, url, inputPath=None, videoPath=None, audioPath=None, transcribeText=None):
         self.url = url
         self.inputPath = inputPath
