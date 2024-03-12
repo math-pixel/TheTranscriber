@@ -14,7 +14,7 @@ conversionResult = converterCoordinator.convert(transcriberContext)
 
 def myEndedFunctionDamour(result):
     print(f"result of transcriber : {result['text']}")
-    tsContext.transcribeText = result["segments"]
+    transcriberContext.transcribeText = result["segments"]
 
 
 contextTranscriber = IATranscriberContext("small", myEndedFunctionDamour)
