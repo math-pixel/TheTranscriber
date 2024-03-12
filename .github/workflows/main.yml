@@ -41,3 +41,6 @@ jobs:
 
       - name: Run Downloader tests
         run: python -m tests.DownloaderTest
+
+      - name: Run TranscriptionController tests
+        run: python -m tests.TranscriptionControllerTest
