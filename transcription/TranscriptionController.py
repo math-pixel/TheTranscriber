@@ -7,10 +7,13 @@ from transcriber.transcriberManager import *
 # The idea behind the code is to use https://refactoring.guru/fr/design-patterns/facade
 # So the design pattern of Facade (in french yes) wan't to simplify the interaction
 # with a set of class
+# This object is also a singleton, a singleton facade ahah
 
 
 # I named this class a controller cause the controller need to process the user input
 class TranscriptionController:
+
+    instance = None
 
     def __init__(self):
         pass
@@ -19,7 +22,9 @@ class TranscriptionController:
     # cause the only way for the user to talk with this object is by passing an
     # input text that contains the url // the path of the video
     # We may need to thread that in the future
-    def startTranscription(self, input: str):
+    # The callback of this function take a value in parameter so, in this callback, you will need
+    # to put something like trContext.text = result["text"]
+    def startTranscription(self, input: str, callback):
         transcriberContext = TranscriberContext(input)
 
         downloaderManager = DownloaderManager()
@@ -28,14 +33,13 @@ class TranscriptionController:
         converterCoordinator = ConversionCoordinator.getConversionCoordinator()
         conversionResult = converterCoordinator.convert(transcriberContext)
 
-
-        def myEndedFunctionDamour(result):
-            print(f"result of transcriber : {result['text']}")
-            transcriberContext.transcribeText = result["segments"]
-
-
-        contextTranscriber = IATranscriberContext("small", myEndedFunctionDamour)
-        myManager = TranscriberManager()
-        myManager.useAI(ListAI.WHISPER, contextTranscriber)
-        myManager.transcribe(transcriberContext.audioPath)
+        contextTranscriber = IATranscriberContext("small", callback)
+        trManager = TranscriberManager()
+        trManager.useAI(ListAI.WHISPER, contextTranscriber)
+        trManager.transcribe(transcriberContext.audioPath)
         pass
+
+    def getInstance() -> 'TranscriptionController' :
+        if TranscriptionController.instance == None :
+            TranscriptionController.instance = TranscriptionController()
+        return TranscriptionController.instance
