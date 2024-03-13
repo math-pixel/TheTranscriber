@@ -18,6 +18,7 @@ class TranscriptionController:
     # The main function that we need to call, here, the input is only a string
     # cause the only way for the user to talk with this object is by passing an
     # input text that contains the url // the path of the video
+    # We may need to thread that in the future
     def startTranscription(self, input: str):
         transcriberContext = TranscriberContext(input)
 
