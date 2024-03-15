@@ -39,6 +39,10 @@ class TranscriptionController:
         trManager.transcribe(transcriberContext.audioPath)
         pass
 
+    # For some reason, this function worked as a static even without the @staticmethod... so i searched and lol
+    # https://stackoverflow.com/questions/52831534/why-is-a-method-of-a-python-class-declared-without-self-and-without-decorators
+    # This is funny, what a snake
+    @staticmethod
     def getInstance() -> 'TranscriptionController' :
         if TranscriptionController.instance == None :
             TranscriptionController.instance = TranscriptionController()
