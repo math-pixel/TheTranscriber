@@ -12,8 +12,8 @@ So for that, the TranscriptionController directly needs to use the different ser
 > Here is an example of what the TranscriptionController instantiate and call
 ```mermaid
 graph TD;
-    TranscriptionController-->Downloader;
-    TranscriptionController-->Convertor;
-    TranscriptionController-->Transcriber;
+    TranscriptionController-->|Instantiate it on every transcription|Downloader;
+    TranscriptionController-->|Instantiate it on every transcription|Convertor;
+    TranscriptionController-->|Instantiate it once|Transcriber;
 ```
 

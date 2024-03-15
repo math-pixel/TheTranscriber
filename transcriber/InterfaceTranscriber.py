@@ -3,10 +3,9 @@ from DLog import *
 
 class InterfaceTranscriber:
 
-    def __init__(self, fileName, customContext):
+    def __init__(self, fileName):
 
         self.avaibleModelForTranscriber = [] # avaible model for current AI
-        self.callback = customContext.myCallback # callback after transcribe
         self.model = customContext.myModel
 
 
@@ -26,7 +25,7 @@ class InterfaceTranscriber:
 
 
     # transcribe
-    def transcribe(self):
+    def transcribe(self, filename, callback):
         try:
             pass
             #! ##### Transcribe ##### 

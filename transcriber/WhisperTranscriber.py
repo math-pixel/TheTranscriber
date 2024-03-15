@@ -6,7 +6,6 @@ class WhisperTranscriber(InterfaceTranscriber):
 
     def __init__(self, customContext):
         self.avaibleModelForTranscriber = [ "tiny", "base",  "small", "medium", "large" ]
-        self.callback = customContext.myCallback
         self.model = customContext.myModel
 
     # load model
@@ -27,9 +26,9 @@ class WhisperTranscriber(InterfaceTranscriber):
             self.loadModel() 
 
     # transcribe
-    def transcribe(self, filename):
+    def transcribe(self, filename, callback):
         try:
             result = self.model.transcribe(filename)
-            self.callback(result)
+            callback(result)
         except:
-            DLog.error(f"Error : When module trannscribe")
+            DLog.error(f"Error : When module transcribe")

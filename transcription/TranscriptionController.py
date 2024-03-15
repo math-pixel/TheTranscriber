@@ -15,7 +15,13 @@ class TranscriptionController:
 
     instance = None
 
+    # In the constructor, i set the current AI of the TranscriberManager, so like that, we
+    # directly load the model of the Transcriber Manager once and because it's a singleton,
+    # we load it only once !
     def __init__(self):
+        contextTranscriber = IATranscriberContext("small")
+        self.trManager = TranscriberManager()
+        self.trManager.setCurrentAI(ListAI.WHISPER, contextTranscriber)
         pass
 
     # The main function that we need to call, here, the input is only a string
@@ -33,10 +39,7 @@ class TranscriptionController:
         converterCoordinator = ConversionCoordinator.getConversionCoordinator()
         conversionResult = converterCoordinator.convert(transcriberContext)
 
-        contextTranscriber = IATranscriberContext("small", callback)
-        trManager = TranscriberManager()
-        trManager.useAI(ListAI.WHISPER, contextTranscriber)
-        trManager.transcribe(transcriberContext.audioPath)
+        self.trManager.transcribe(transcriberContext.audioPath, callback)
         pass
 
     # For some reason, this function worked as a static even without the @staticmethod... so i searched and lol
