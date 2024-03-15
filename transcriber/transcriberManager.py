@@ -1,4 +1,4 @@
-from transcriber.whisperTranscriber import *
+from transcriber.WhisperTranscriber import *
 from enum import Enum
 
 
@@ -50,7 +50,7 @@ class TranscriberManager:
 
         if aiName == ListAI.WHISPER:
             self.state = ListState.LOADINGMODEL
-            self.currentAI = Whisper(customContext=aiContext)
+            self.currentAI = WhisperTranscriber(customContext=aiContext)
             self.currentAI.loadModel()
             self.state = ListState.IDLE
 

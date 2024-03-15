@@ -1,8 +1,8 @@
-from transcriber.interfaceTranscriber import InterfaceTranscriber
-import whisper
+from transcriber.InterfaceTranscriber import InterfaceTranscriber
 from DLog import *
+import whisper
 
-class Whisper(InterfaceTranscriber):
+class WhisperTranscriber(InterfaceTranscriber):
 
     def __init__(self, customContext):
         self.avaibleModelForTranscriber = [ "tiny", "base",  "small", "medium", "large" ]

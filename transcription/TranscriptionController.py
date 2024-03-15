@@ -1,7 +1,7 @@
 from TranscriberContext import *
 from downloader.DownloaderManager import *
 from convertor.ConversionCoordinator import *
-from transcriber.transcriberManager import *
+from transcriber.TranscriberManager import *
 
 
 # The idea behind the code is to use https://refactoring.guru/fr/design-patterns/facade
