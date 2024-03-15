@@ -33,14 +33,6 @@ jobs:
           pip3 install openai-whisper
           pip install -r requirements.txt
 
-      - name: Run Convertor tests
-        run: python -m tests.ConvertorTest
+      - name: Run tests
+        run: python -m unittest discover -s ./tests -p "*Test.py"
 
-      - name: Run Transcriber tests
-        run: python -m tests.TranscriberTest
-
-      - name: Run Downloader tests
-        run: python -m tests.DownloaderTest
-
-      - name: Run TranscriptionController tests
-        run: python -m tests.TranscriptionControllerTest

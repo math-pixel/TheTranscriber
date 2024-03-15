@@ -1,26 +1,19 @@
 from convertor.ConversionCoordinator import *
 from TranscriberContext import *
-import time
+import unittest
 
 
-def testConversion(transcriberContext, testName):
-    DLog.goodbiglog(f"==========TEST : {testName} STARTED==========")
-    try:
+
+
+
+class ConvertorTest(unittest.TestCase):
+    def test_convertor_video_to_audio(self):
+        trContextVideoInput = TranscriberContext.getContextWithVideo()
+        trContextVideoInput.audioPath = None
         converterCoordinator = ConversionCoordinator.getConversionCoordinator()
-        conversionResult = converterCoordinator.convert(transcriberContext)
-        DLog.goodlog(f"Audio path : {transcriberContext.audioPath}")
-        DLog.goodlog(f"Video path : {transcriberContext.videoPath}")
-        DLog.goodbiglog(f"==========TEST : {testName} PASSED==========")
-    except:
-        DLog.exception(f"==========TEST : {testName} ERROR==========")
+        conversionResult = converterCoordinator.convert(trContextVideoInput)
+        self.assertIsNotNone(trContextVideoInput.audioPath)
 
 
-def launchConversionTest():
-    trContextAudioInput = TranscriberContext.getContextWithInputAudio()
-    testConversion(trContextAudioInput, "Transcriber with audio")
-    time.sleep(2)
-    trContextVideoInput = TranscriberContext.getContextWithVideo()
-    trContextVideoInput.audioPath = None
-    testConversion(trContextVideoInput, "Transcriber without audio path")
-
-launchConversionTest()
+if __name__ == '__main__':
+    unittest.main()

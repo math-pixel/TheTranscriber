@@ -1,14 +1,14 @@
 from transcription.TranscriptionController import *
 from DLog import *
+import unittest
 
-def callback(result):
-    DLog.goodbiglog("callback called")
-    DLog.goodlog(f"result of transcriber : {result['text']}")
+class TranscriptionControllerTest(unittest.TestCase):
+    # This test just check if the singleton function "getInstance" is properly implemented
+    def test_singleton(self):
+        trController1 = TranscriptionController.getInstance()
+        trController2 = TranscriptionController.getInstance()
+        self.assertEqual(trController1, trController2)
 
 
-DLog.goodbiglog("==========TEST : TRANSCRIPTION CONTROLLER STARTED==========")
-try:
-    trController = TranscriptionController.getInstance().startTranscription("https://www.youtube.com/watch?v=z9w6tO4d90U", callback);
-    DLog.goodbiglog("==========TEST : TRANSCRIPTION CONTROLLER PASSED==========")
-except:
-    DLog.exception("==========TEST : TRANSCRIPTION CONTROLLER FAILED==========")
+if __name__ == '__main__':
+    unittest.main()
