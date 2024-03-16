@@ -4,11 +4,18 @@ from GUI.mainUI import *
 from DLog import *
 
 def tempCallback(result):
+    print(result)
+    
+    window.startSecondPage(result, 'export/video.mp4')
+    
     DLog.errorbiglog("Callback function for transcription isn't set")
-    pass
+    
 
 def launchTranscription(url, callback = tempCallback):
     TranscriptionController.getInstance().startTranscription(url, tempCallback)
 
 
-startUI(launchTranscription)
+window = MainUI()
+
+window.startFirstPage(launchTranscription)
+
