@@ -1,6 +1,6 @@
 from TranscriberContext import *
 from transcription.TranscriptionController import *
-from GUI.mainUI import *
+from GUI.Application import *
 from DLog import *
 
 def tempCallback(result):
@@ -15,7 +15,5 @@ def launchTranscription(url, callback = tempCallback):
     TranscriptionController.getInstance().startTranscription(url, tempCallback)
 
 
-window = MainUI()
-
-window.startFirstPage(launchTranscription)
+app = Application.getInstance()
 
