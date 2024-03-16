@@ -1,15 +1,14 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QDesktopWidget
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
-from GUI.Application import *
-from GUI.GUI import *
 from Utils import Utils
+from transcription.TranscriptionController import *
 import threading
 
 
 
 class DragAndDrop(QWidget):
-    def __init__(self, callback):
+    def __init__(self):
         super().__init__()
         self.setAcceptDrops(True)
         
@@ -22,8 +21,6 @@ class DragAndDrop(QWidget):
         self.divWidget = QWidget(self)
         self.divWidget.setContentsMargins(50, 50, 50, 50)
         self.divWidget.setStyleSheet(f"background-color: #A8DD9B; border-radius: 20px; font-size:20px; color: {self.textColor};")
-
-        self.callback = callback
 
         # ---------------------------------------------------------------------------- #
         #                                  Adding text                                 #
@@ -92,45 +89,15 @@ class DragAndDrop(QWidget):
         self.nextPage()
     
     def nextPage(self):
-        self.segmentTranscription = None
+        # Cause of circular import, i can import SceneManager at the module level (and it's normal lol)
+        # So i do this x)
+        print("go to the next page")
+        from window.SceneManager import SceneManager
 
         def setResultCallback(result):
-            self.segmentTranscription = result["segments"]
+            segmentTranscription = result["segments"]
+            SceneManager.getInstance().goToScene("videoTranscribedScene")
 
-
-        thread = threading.Thread(target=self.callback, args=(self.url, setResultCallback))
+        thread = threading.Thread(target=TranscriptionController.getInstance().startTranscription, args=(self.url, setResultCallback))
         thread.start()
-        thread.join()
-        resultPage = UIResult(self.segmentTranscription, Utils.getDirectoryAbsolutePath() + "/export/video.mp4")
-        Application.getInstance().setActualPage(resultPage)
         
-
-
-# ---------------------------------------------------------------------------- #
-#                                    Window                                    #
-# ---------------------------------------------------------------------------- #
-class UIDragAndDrop(QWidget):
-    def __init__(self, callback):
-        super().__init__()
-
-        self.setWindowTitle("Interface")
-        self.resize(1280, 556)
-        self.center()
-
-        self.dragDiv = DragAndDrop(callback)
-        
-        hLayout = QHBoxLayout()
-        hLayout.addWidget(self.dragDiv) 
-
-        self.setLayout(hLayout)
-
-    
-    
-    def center(self):
-        qr = self.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
-        self.move(qr.topLeft())
-
-
-
