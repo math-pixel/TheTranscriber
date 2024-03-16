@@ -1,7 +1,9 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QDesktopWidget
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
-
+from GUI.Application import *
+from GUI.GUI import *
+from Utils import Utils
 import threading
 
 
@@ -89,14 +91,19 @@ class DragAndDrop(QWidget):
         self.url = url
         self.nextPage()
     
-    
     def nextPage(self):
-        print("page suivante")
-        print(self.url)
-        
-        thread = threading.Thread(target=self.callback, args=(self.url,)) # args=(self.url -->,<-- IMPORTANT
-        thread.start()
+        self.segmentTranscription = None
 
+        def setResultCallback(result):
+            self.segmentTranscription = result["segments"]
+
+
+        thread = threading.Thread(target=self.callback, args=(self.url, setResultCallback))
+        thread.start()
+        thread.join()
+        resultPage = UIResult(self.segmentTranscription, Utils.getDirectoryAbsolutePath() + "/export/video.mp4")
+        Application.getInstance().setActualPage(resultPage)
+        
 
 
 # ---------------------------------------------------------------------------- #

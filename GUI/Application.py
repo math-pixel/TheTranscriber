@@ -1,7 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication
-from GUI.UI import *
-from GUI.GUI import *
+from PyQt5.QtWidgets import QApplication, QWidget
 from DLog import *
 
 class Application:
@@ -9,47 +7,26 @@ class Application:
     instance = None
 
     def __init__(self):
-        # Initialise l'application
         self.app = QApplication(sys.argv)
-        
-        self.page1 = None
-        self.page2 = None
-
         self.actualPage = None
 
-    def setActualPage(self):
+    # Where we set the actual page
+    def setActualPage(self, page: QWidget):
+        if self.actualPage != None:
+            self.actualPage.close()
+            pass
+        self.actualPage = page;
+        self.actualPage.show()
         pass
 
+    # Where we launch the application, we need to set the atual page before launching the application
     def launchApplication(self):
+        if self.actualPage == None:
+            DLog.errorbiglog("Actual page isn't set")
+            return
+        
+        sys.exit(self.app.exec_())
         pass
-'''
-    def startFirstPage(self, callback):
-        
-        self.page1 = UIDragAndDrop(callback)
-        self.page1.show()
-        
-        sys.exit(self.app.exec_())
-
-
-    def startSecondPage(self, result, video_path):
-        
-        if self.page1 == None:
-            DLog.errorbiglog("The first page has not been created.")
-            sys.exit(self.app.exec_())
-            
-        print("Page 1 hide")
-        self.page1.close()
-        
-        
-        print("Show page 2")
-        self.page2 = UIResult(result, video_path)
-        print("Page loadings")
-        self.page2.show()
-        
-        print("Page  2 showed")
-        
-        sys.exit(self.app.exec_())
-'''
 
     @staticmethod
     def getInstance():

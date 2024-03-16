@@ -5,6 +5,8 @@ from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QFont
+from GUI.Application import *
+from GUI.UI import *
 
 
 class CustomQListWidgetItem(QListWidgetItem):
