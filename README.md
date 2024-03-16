@@ -1,6 +1,12 @@
 # TheTranscriber
 
+## How to simply run the program ?
 
+### Docker
+
+```bash
+docker compose up -d
+```
 
 ## Installing youtube-dl
 
@@ -8,13 +14,13 @@
 
 ### Installation
 
-#### macOS
+#### Brew
 
 ```bash
 brew install youtube-dl
 ```
 
-#### Linux
+#### Ubuntu
 
 ```bash
 sudo apt-get install youtube-dl
@@ -30,13 +36,13 @@ Download the Windows executable from [here](https://youtube-dl.org/downloads/lat
 
 ### Installation
 
-#### macOS
+#### Brew
 
 ```bash
 brew install libmagic
 ```
 
-#### Linux
+#### Ubuntu
 
 ```bash
 sudo apt-get install libmagic1

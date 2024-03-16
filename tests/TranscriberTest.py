@@ -1,19 +1,22 @@
-from transcriber.transcriberManager import *
+from transcriber.TranscriberManager import *
 from TranscriberContext import *
 from DLog import *
+import unittest
 
-DLog.goodbiglog("==========TEST : TRANSCRIBER STARTED==========")
-try:
-    tsContext = TranscriberContext.getContextWithVideoAndAudio()
-
+def runTranscribtion(tsContext):
     def myEndedFunctionDamour(result):
-        print(f"result of transcriber : {result['text']}")
         tsContext.transcribeText = result["segments"]
 
-    contextTranscriber = IATranscriberContext("small", myEndedFunctionDamour)
+    contextTranscriber = IATranscriberContext("small")
     myManager = TranscriberManager()
-    myManager.useAI(ListAI.WHISPER, contextTranscriber)
-    myManager.transcribe(tsContext.audioPath)
-    DLog.goodbiglog("==========TEST : TRANSCRIBER PASSED==========")
-except:
-    DLog.exception("==========TEST : TRANSCRIBER FAILED==========")
+    myManager.setCurrentAI(ListAI.WHISPER, contextTranscriber)
+    myManager.transcribe(tsContext.audioPath, myEndedFunctionDamour)
+
+class TranscriberTest(unittest.TestCase):
+    def test_transcriber(self):
+        tsContext = TranscriberContext.getContextWithVideoAndAudio()
+        runTranscribtion(tsContext)
+        self.assertIsNotNone(tsContext.transcribeText)
+
+if __name__ == '__main__':
+    unittest.main()

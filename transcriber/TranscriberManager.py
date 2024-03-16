@@ -1,4 +1,5 @@
-from transcriber.whisperTranscriber import *
+from transcriber.WhisperTranscriber import *
+from transcriber.IATranscriberContext import *
 from enum import Enum
 
 
@@ -16,27 +17,6 @@ class ListState(Enum):
     TRANSCRIBING = "TRANSCRIBING" 
 
 # ---------------------------------------------------------------------------- #
-#                              Context IATranscriber                             #
-# ---------------------------------------------------------------------------- #
-
-def finished(string):
-    print(string)
-
-class IATranscriberContext:
-    def __init__(self, model, customCallback) -> None:
-        self.myModel = model
-        self.myCallback = customCallback
-
-    @staticmethod
-    def whisper():
-        return IATranscriberContext(model="small", customCallback=finished)
-    
-    # @staticmethod
-    # def fasterWhisper():
-    #     return IATranscriberContext("172.20.10.2", 8080)
-
-
-# ---------------------------------------------------------------------------- #
 #                                    Manager                                   #
 # ---------------------------------------------------------------------------- #
 
@@ -46,11 +26,11 @@ class TranscriberManager:
         self.currentAI = None
         self.state = ListState.IDLE
 
-    def useAI(self, aiName, aiContext):
+    def setCurrentAI(self, aiName, aiContext):
 
         if aiName == ListAI.WHISPER:
             self.state = ListState.LOADINGMODEL
-            self.currentAI = Whisper(customContext=aiContext)
+            self.currentAI = WhisperTranscriber(customContext=aiContext)
             self.currentAI.loadModel()
             self.state = ListState.IDLE
 
@@ -58,11 +38,11 @@ class TranscriberManager:
             DLog.error("Error : AI not in list")
 
 
-    def transcribe(self, filename):
+    def transcribe(self, filename, callback):
 
         if self.currentAI != None:
             self.state = ListState.TRANSCRIBING
-            self.currentAI.transcribe(filename)
+            self.currentAI.transcribe(filename, callback)
             self.state = ListState.IDLE
 
 

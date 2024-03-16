@@ -14,7 +14,7 @@ class SoundConvertStrategy:
     def executeConversion(self, trContext:TranscriberContext):
         """
         This method launch the file conversion according to the strategy selected.
-        
+
         Args:
             trContext (TranscriberContext): Main object with data use for download, convert and transcribe.
         """
@@ -29,7 +29,7 @@ class DefaultSoundConvertStrategy(SoundConvertStrategy):
     def executeConversion(self, trContext:TranscriberContext):
         """
         This method do not launch conversion and return None.
-        
+
         Args:
             trContext (TranscriberContext): Main object with data use for download, convert and transcribe.
         """
@@ -44,10 +44,10 @@ class MP4ToMP3ConvertStrategy(SoundConvertStrategy):
     def executeConversion(self, trContext:TranscriberContext):
         """
         This method launch the file conversion from MP4 to MP3.
-        
+
         Args:
             trContext (TranscriberContext): Main object with data use for download, convert and transcribe.
-        
+
         Returns:
             audioPath (str): That is the audio path of the file resulting from the conversion.
         """
@@ -59,7 +59,7 @@ class MP4ToMP3ConvertStrategy(SoundConvertStrategy):
         audio_clip.write_audiofile("export/output.mp3")
         audio_clip.close()
         video_clip.close()
-        
+
         return "export/output.mp3"
 
 class AviToMP3ConvertStrategy(SoundConvertStrategy):
@@ -70,10 +70,10 @@ class AviToMP3ConvertStrategy(SoundConvertStrategy):
     def executeConversion(self, trContext:TranscriberContext):
         """
         This method launch the file conversion from Avi to MP3.
-        
+
         Args:
             trContext (TranscriberContext): Main object with data use for download, convert and transcribe.
-        
+
         Returns:
             audioPath (str): That is the audio path of the file resulting from the conversion.
         """
@@ -96,10 +96,10 @@ class WavToMP3ConvertStrategy(SoundConvertStrategy):
     def executeConversion(self, trContext:TranscriberContext):
         """
         This method launch the file conversion from Wav to MP3.
-        
+
         Args:
             trContext (TranscriberContext): Main object with data use for download, convert and transcribe.
-        
+
         Returns:
             audioPath (str): That is the audio path of the file resulting from the conversion.
         """
@@ -119,10 +119,10 @@ class MP3ToMP3ConvertStrategy(SoundConvertStrategy):
         """
         This method launch the file conversion from MP3 to MP3. We are using this strategy to get the new audio path.
         We are not using DefaultSoundConvertStrategy because its method return None.
-        
+
         Args:
             trContext (TranscriberContext): Main object with data use for download, convert and transcribe.
-        
+
         Returns:
             audioPath (str): That is the audio path of the file resulting from the conversion.
         """
