@@ -1,31 +1,14 @@
 from TranscriberContext import *
-from downloader.DownloaderManager import *
-from convertor.ConversionCoordinator import *
-from transcriber.transcriberManager import *
+from transcription.TranscriptionController import *
 from GUI.mainUI import *
+from DLog import *
 
-# transcriberContext = TranscriberContext.getContextWithUrl()
+def tempCallback(result):
+    DLog.errorbiglog("Callback function for transcription isn't set")
+    pass
 
-
-def lauchOtherScripts(url):
-    
-    transcriberContext = TranscriberContext(url)
-
-    downloaderManager = DownloaderManager()
-    downloaderManager.startDownload(transcriberContext)
-
-    converterCoordinator = ConversionCoordinator.getConversionCoordinator()
-    conversionResult = converterCoordinator.convert(transcriberContext)
-    
-    def myEndedFunctionDamour(result):
-        print(f"result of transcriber : {result['text']}")
-        transcriberContext.transcribeText = result["segments"]
+def launchTranscription(url, callback = tempCallback):
+    TranscriptionController.getInstance().startTranscription(url, tempCallback)
 
 
-    contextTranscriber = IATranscriberContext("small", myEndedFunctionDamour)
-    myManager = TranscriberManager()
-    myManager.useAI(ListAI.WHISPER, contextTranscriber)
-    myManager.transcribe(transcriberContext.audioPath)
-
-
-startUI(lauchOtherScripts)
+startUI(launchTranscription)
