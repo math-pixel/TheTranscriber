@@ -6,8 +6,7 @@ from window.SceneManager import *
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = SceneManager.getInstance()
-    window.show()
+    SceneManager.getInstance().show()
     sys.exit(app.exec_())
 
 

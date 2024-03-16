@@ -30,7 +30,7 @@ class TranscriptionController:
     # We may need to thread that in the future
     # The callback of this function take a value in parameter so, in this callback, you will need
     # to put something like trContext.text = result["text"]
-    def startTranscription(self, input: str, callback):
+    def startTranscription(self, input: str):
         transcriberContext = TranscriberContext(input)
 
         downloaderManager = DownloaderManager()
@@ -39,8 +39,7 @@ class TranscriptionController:
         converterCoordinator = ConversionCoordinator.getConversionCoordinator()
         conversionResult = converterCoordinator.convert(transcriberContext)
 
-        self.trManager.transcribe(transcriberContext.audioPath, callback)
-        pass
+        return self.trManager.transcribe(transcriberContext.audioPath)
 
     # For some reason, this function worked as a static even without the @staticmethod... so i searched and lol
     # https://stackoverflow.com/questions/52831534/why-is-a-method-of-a-python-class-declared-without-self-and-without-decorators

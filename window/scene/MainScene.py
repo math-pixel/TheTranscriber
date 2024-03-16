@@ -6,9 +6,7 @@ from window.scene.mainScene.DragAndDrop import DragAndDrop
 import threading
 
 
-# ---------------------------------------------------------------------------- #
-#                                    Window                                    #
-# ---------------------------------------------------------------------------- #
+# The MainScene (the first one !)
 class MainScene(QWidget):
     def __init__(self):
         super().__init__()

@@ -3,9 +3,9 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QPushButton,
 from window.scene.MainScene import MainScene
 from window.scene.VideoTranscribedScene import VideoTranscribedScene
 
-# To be clearer, i consider in this object, every QWidget who looks like a scene are a scene
-# Here, we do a system like UnityScene for example, every scene have a lifecycle but cannot be instanciated
-# with different params
+
+# Here, the "SceneManager", is just the QMainWindow, but with capabilities to manage scenes, the name
+# isn't good imo, i don't have other idea for now
 class SceneManager(QMainWindow):
     instance = None
 
@@ -21,21 +21,21 @@ class SceneManager(QMainWindow):
         central_widget.setLayout(layout)
         self.stacked_widget = QStackedWidget()
         layout.addWidget(self.stacked_widget)
+        
+        self.stacked_widget.addWidget(MainScene())
 
-        # Setup every scene
-        self.scenes = {
-            # https://www.youtube.com/watch?v=z9w6tO4d90U
-            "mainScene": MainScene(), 
-            "videoTranscribedScene": VideoTranscribedScene(),
-        }
+    def newScene(self, scene):
+        self.removeScene()
+        self.stacked_widget.addWidget(scene)
+        self.stacked_widget.setCurrentWidget(scene)
 
-        for scene in self.scenes.values():
-            self.stacked_widget.addWidget(scene)
-
-    def goToScene(self, sceneName: str):
-        self.stacked_widget.currentWidget().endScene()
-        self.stacked_widget.setCurrentWidget(self.scenes[sceneName])
-        self.stacked_widget.currentWidget().startScene()
+    def removeScene(self):
+        # Remove other scenes from memory but keep 1 scene in the stacked widget, in that manner, we can
+        # keep the thread from the widget before the first one !
+        if self.stacked_widget.count() > 1:
+            removed_widget = self.stacked_widget.currentWidget()
+            self.stacked_widget.removeWidget(removed_widget)
+            removed_widget.deleteLater()
 
     @staticmethod
     def getInstance():

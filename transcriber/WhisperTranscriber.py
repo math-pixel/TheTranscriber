@@ -25,10 +25,5 @@ class WhisperTranscriber(InterfaceTranscriber):
             self.model = model
             self.loadModel() 
 
-    # transcribe
-    def transcribe(self, filename, callback):
-        try:
-            result = self.model.transcribe(filename)
-            callback(result)
-        except:
-            DLog.error(f"Error : When module transcribe")
+    def transcribe(self, filename):
+        return self.model.transcribe(filename)

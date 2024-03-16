@@ -19,6 +19,7 @@ class DownloaderYoutube(Downloader):
         super().__init__()
 
     def startDownload(self, transcriberContext):
+        # TODO: add an args that automatically overwrite the file
         command = ["youtube-dl", "-o", self.downloadPath, transcriberContext.url]
         DLog.goodlog("Starting Youtube Download")
         subprocess.run(command)

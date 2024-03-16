@@ -1,11 +1,23 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtCore import Qt, QUrl, QThread, pyqtSignal
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
 from Utils import Utils
 from transcription.TranscriptionController import *
+from window.scene.VideoTranscribedScene import *
+from window.scene.LoadingScene import *
 import threading
 
+class TranscribeVideoThread(QThread):
+    # Here, we signal that the pyqtSignal take 1 arg and it is a list
+    finished_signal = pyqtSignal(list)
 
+    def __init__(self, url):
+        super().__init__()
+        self.url = url
+
+    def run(self):
+        result = TranscriptionController.getInstance().startTranscription(self.url);
+        self.finished_signal.emit(result["segments"])
 
 class DragAndDrop(QWidget):
     def __init__(self):
@@ -39,7 +51,7 @@ class DragAndDrop(QWidget):
         self.inputText.setPlaceholderText("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
         self.button = QPushButton("GO")
-        self.button.clicked.connect(lambda: self.buttonClicked(self.inputText.text()))
+        self.button.clicked.connect(lambda: self.launchTranscription(self.inputText.text()))
         self.button.setStyleSheet(f"background-color: #FFA1A1; border-radius: 20px; padding: 10px 20px; color: {self.textColor};")
         
         self.inputHLayout.addWidget(self.inputText)
@@ -84,20 +96,21 @@ class DragAndDrop(QWidget):
     # ---------------------------------------------------------------------------- #
     #                                     Event                                    #
     # ---------------------------------------------------------------------------- #
-    def buttonClicked(self, url):
-        self.url = url
-        self.nextPage()
-    
-    def nextPage(self):
-        # Cause of circular import, i can import SceneManager at the module level (and it's normal lol)
-        # So i do this x)
-        print("go to the next page")
+    # This is the function called when we click on the button
+    def launchTranscription(self, url):
+        self.transcribe_thread = TranscribeVideoThread(url)
+        # Connect the callback to the finished signal !
+        self.transcribe_thread.finished_signal.connect(self.nextPage)
+        self.transcribe_thread.start()
+
+        # To avoid circular import here lol
         from window.SceneManager import SceneManager
+        SceneManager.getInstance().newScene(LoadingScene())
+        
 
-        def setResultCallback(result):
-            segmentTranscription = result["segments"]
-            SceneManager.getInstance().goToScene("videoTranscribedScene")
-
-        thread = threading.Thread(target=TranscriptionController.getInstance().startTranscription, args=(self.url, setResultCallback))
-        thread.start()
+    def nextPage(self, result: list):
+        # Cause of circular import, i can't import SceneManager at the module level (and it's normal lol)
+        # So i do this x)
+        from window.SceneManager import SceneManager
+        SceneManager.getInstance().newScene(VideoTranscribedScene(result, Utils.getDirectoryAbsolutePath() + "/export/video.mp4"))
         
