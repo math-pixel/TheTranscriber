@@ -33,7 +33,7 @@ class SceneManager(QMainWindow):
         # Remove other scenes from memory but keep 1 scene in the stacked widget, in that manner, we can
         # keep the thread from the widget before the first one !
         if self.stacked_widget.count() > 1:
-            removed_widget = self.stacked_widget.currentWidget()
+            removed_widget = self.stacked_widget.widget(0)
             self.stacked_widget.removeWidget(removed_widget)
             removed_widget.deleteLater()
 
