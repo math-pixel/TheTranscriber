@@ -37,12 +37,11 @@ class TranscriberManager:
         else:
             DLog.error("Error : AI not in list")
 
-
-    def transcribe(self, filename, callback):
-
+    def transcribe(self, filename):
         if self.currentAI != None:
             self.state = ListState.TRANSCRIBING
-            self.currentAI.transcribe(filename, callback)
+            result = self.currentAI.transcribe(filename)
             self.state = ListState.IDLE
+            return result
 
 

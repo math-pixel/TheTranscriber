@@ -10,13 +10,13 @@ def runTranscribtion(tsContext):
     contextTranscriber = IATranscriberContext("small")
     myManager = TranscriberManager()
     myManager.setCurrentAI(ListAI.WHISPER, contextTranscriber)
-    myManager.transcribe(tsContext.audioPath, myEndedFunctionDamour)
+    return myManager.transcribe(tsContext.audioPath)
 
 class TranscriberTest(unittest.TestCase):
     def test_transcriber(self):
         tsContext = TranscriberContext.getContextWithVideoAndAudio()
-        runTranscribtion(tsContext)
-        self.assertIsNotNone(tsContext.transcribeText)
+        result = runTranscribtion(tsContext)
+        self.assertIsNotNone(result)
 
 if __name__ == '__main__':
     unittest.main()

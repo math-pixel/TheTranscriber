@@ -10,7 +10,7 @@ class TranscriberContext:
 
     @staticmethod
     def getContextWithUrl():
-        return TranscriberContext("https://www.youtube.com/watch?v=z9w6tO4d90U", None,  None, None, None,)
+        return TranscriberContext("https://www.youtube.com/watch?v=z9w6tO4d90U", None,  None, None, None)
 
     @staticmethod
     def getContextWithVideo():

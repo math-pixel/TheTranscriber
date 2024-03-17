@@ -1,8 +1,12 @@
-from transcription.TranscriptionController import *
-from DLog import *
+from TranscriberContext import TranscriberContext
+from transcription.TranscriptionController import TranscriptionController
+from DLog import DLog
+from Utils import Utils
+from window.SceneManager import *
 
-def callback(result):
-    DLog.goodlog("callback called")
-    DLog.goodlog(f"result of transcriber : {result['text']}")
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    SceneManager.getInstance().show()
+    sys.exit(app.exec_())
 
-TranscriptionController.getInstance().startTranscription("https://www.youtube.com/watch?v=z9w6tO4d90U", callback);
+
