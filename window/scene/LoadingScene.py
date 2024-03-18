@@ -15,12 +15,30 @@ class LoadingScene(QWidget, TranscriptionObserver):
 
         
         self.labelState = QLabel("Loading...")
+        self.labelState.setStyleSheet("color: white; font-size: 20px;")
         
         self.labelState.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.labelState.setAlignment(Qt.AlignCenter)
         
         
         self.progress = QProgressBar(self)
+        self.progress.setStyleSheet("""
+            .QProgressBar {
+                background-color: #76CA62;
+                border-radius: 15px;
+                height: 30px;
+                margin: 0 10px;
+                text-align: center;
+                color: white; 
+                font-size: 20px;
+            }
+
+            .QProgressBar::chunk {
+                background-color: #A8DD9B;
+                border-radius: 15px;
+            }
+        """)
+        
         self.completed = 0
         self.stateCount = len(TranscriptionState)
         

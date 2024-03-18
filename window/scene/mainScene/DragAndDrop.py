@@ -37,7 +37,7 @@ class DragAndDrop(QWidget):
 
         self.divWidget = QWidget(self)
         self.divWidget.setContentsMargins(50, 50, 50, 50)
-        self.divWidget.setStyleSheet(f"background-color: #A8DD9B; border-radius: 20px; font-size:20px; color: {self.textColor};")
+        self.divWidget.setStyleSheet(f"background-color: #76CA62; border-radius: 20px; font-size:20px; color: {self.textColor};")
 
         # ---------------------------------------------------------------------------- #
         #                                  Adding text                                 #
@@ -54,6 +54,7 @@ class DragAndDrop(QWidget):
 
         self.inputText = QLineEdit()
         self.inputText.setPlaceholderText("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        self.inputText.setStyleSheet(f"background-color: #A8DD9B; border-radius: 20px; padding: 10px 20px; color: {self.textColor};")
 
         self.button = QPushButton("GO")
         self.button.clicked.connect(lambda: self.launchTranscription(self.inputText.text()))

@@ -13,6 +13,8 @@ class SceneManager(QMainWindow):
         super().__init__()
         self.setWindowTitle("The Transcriber")
         self.setGeometry(100, 100, 1280, 720)
+        
+        self.setStyleSheet("background-color: #2B5023")
 
         # Here, we instantiate the stackedwidget where we will place every new scene created 
         central_widget = QWidget()
