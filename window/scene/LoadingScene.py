@@ -7,15 +7,9 @@ from transcription.TranscriptionController import TranscriptionState
 class LoadingScene(QWidget):
     def __init__(self):
         super().__init__()
+
         
-        # Create a QLabel widget
-        label = QLabel("Loading...")
-        
-        label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        label.setAlignment(Qt.AlignCenter)
-        
-        
-        self.labelState = QLabel("")
+        self.labelState = QLabel("Loading...")
         
         self.labelState.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.labelState.setAlignment(Qt.AlignCenter)
@@ -26,16 +20,17 @@ class LoadingScene(QWidget):
         self.stateCount = len(TranscriptionState)
         
         
-        # Create a layout and add the label to it
         layout = QVBoxLayout()
         
-        layout.addWidget(label)
+        layout.setContentsMargins(200, 200, 200, 200)
+
+        layout.minimumHeightForWidth(300)
+        
         layout.addWidget(self.labelState)
         layout.addWidget(self.progress)
         
-        # Set the layout for the widget
-        self.setLayout(layout)
         
+        self.setLayout(layout)
         
         self.showIdleState()
         self.showDownloadState()
