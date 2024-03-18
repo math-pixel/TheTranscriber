@@ -1,10 +1,15 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QProgressBar, QSizePolicy
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QDesktopWidget, QSizePolicy, QProgressBar
+from PyQt5.QtCore import Qt, QUrl
+from PyQt5.QtGui import QDragEnterEvent, QDropEvent
+from Utils import Utils
+from DLog import *
+from transcription.TranscriptionController import *
 from transcription.TranscriptionController import TranscriptionState
- 
+import threading
+import math
 
 # This is the loading scene called after the MainScene, this will need some improvements
-class LoadingScene(QWidget):
+class LoadingScene(QWidget, TranscriptionObserver):
     def __init__(self):
         super().__init__()
 
@@ -35,10 +40,30 @@ class LoadingScene(QWidget):
         self.showIdleState()
         self.showDownloadState()
 
+    # Here it is the function update that came from the TranscriptionObserver
+    def update(self, state):
+        if state == TranscriptionState.IDLE:
+            self.showIdleState()
+            pass
+        elif state == TranscriptionState.DOWNLOADINGVIDEO:
+            self.showDownloadState()
+            pass
+        elif state == TranscriptionState.CONVERTINGVIDEO:
+            self.showConvertState()
+            pass
+        elif state == TranscriptionState.LOADINGMODEL:
+            self.showLoadModelState()
+            pass
+        elif state == TranscriptionState.TRANSCRIBING:
+            self.showTranscribeState()
+            pass
+        else:
+            raise Exception("State isn't implemented in the Loading Scene")
+
 
     def showIdleState(self):
         self.completed += 1
-        value = self.completed / self.stateCount * 100
+        value = math.floor(self.completed / self.stateCount * 100)
         self.progress.setValue(value)
         
         self.labelState.setText("Idle...")
@@ -46,7 +71,7 @@ class LoadingScene(QWidget):
     
     def showDownloadState(self):
         self.completed += 1
-        value = self.completed / self.stateCount * 100
+        value = math.floor(self.completed / self.stateCount * 100)
         self.progress.setValue(value)
         
         self.labelState.setText("Downloading media...")
@@ -54,7 +79,7 @@ class LoadingScene(QWidget):
     
     def showConvertState(self):
         self.completed += 1
-        value = self.completed / self.stateCount * 100
+        value = math.floor(self.completed / self.stateCount * 100)
         self.progress.setValue(value)
         
         self.labelState.setText("Converting...")
@@ -62,7 +87,7 @@ class LoadingScene(QWidget):
     
     def showLoadModelState(self):
         self.completed += 1
-        value = self.completed / self.stateCount * 100
+        value = math.floor(self.completed / self.stateCount * 100)
         self.progress.setValue(value)
         
         self.labelState.setText("Loading model...")
@@ -70,7 +95,7 @@ class LoadingScene(QWidget):
     
     def showTranscribeState(self):
         self.completed += 1
-        value = self.completed / self.stateCount * 100
+        value = math.floor(self.completed / self.stateCount * 100)
         self.progress.setValue(value)
         
         self.labelState.setText("Transcribing...")
