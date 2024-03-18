@@ -12,12 +12,20 @@ class TranscriptionState(Enum):
     LOADINGMODEL =  "LOADINGMODEL"
     TRANSCRIBING = "TRANSCRIBING" 
 
+from enum import Enum
 
 # The idea behind the code is to use https://refactoring.guru/fr/design-patterns/facade
 # So the design pattern of Facade (in french yes) wan't to simplify the interaction
 # with a set of class
 # This object is also a singleton, a singleton facade ahah
 
+
+class TranscriptionState(Enum):
+    IDLE = "IDLE"
+    DOWNLOADINGVIDEO = "DOWNLOADINGVIDEO"
+    CONVERTINGVIDEO = "CONVERTINGVIDEO"
+    LOADINGMODEL =  "LOADINGMODEL"
+    TRANSCRIBING = "TRANSCRIBING"
 
 # I named this class a controller cause the controller need to process the user input
 # This controller is also an Observable object lol : a singleton facade observable lol
@@ -46,6 +54,11 @@ class TranscriptionController:
         self.updateState(TranscriptionState.DOWNLOADINGVIDEO)
         downloaderManager = DownloaderManager()
         downloaderManager.startDownload(transcriberContext)
+
+        # TODO ERASE OR UNCOMMENT this lines if you wan't to test without download
+        # downloaderManager = DownloaderManager()
+        # downloaderManager.startDownload(transcriberContext)
+        # transcriberContext.inputPath = "./export/video.mp4"
 
         self.updateState(TranscriptionState.CONVERTINGVIDEO)
         converterCoordinator = ConversionCoordinator.getConversionCoordinator()
