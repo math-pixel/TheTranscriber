@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QPushButton, QWidget, QLabel, QStackedWidget
 from window.scene.MainScene import MainScene
 from window.scene.VideoTranscribedScene import VideoTranscribedScene
+from PyQt5.QtGui import QIcon
 
 
 # Here, the "SceneManager", is just the QMainWindow, but with capabilities to manage scenes, the name
@@ -14,6 +15,9 @@ class SceneManager(QMainWindow):
         self.setWindowTitle("The Transcriber")
         self.setGeometry(100, 100, 1280, 720)
         
+        icon = QIcon("./window/icon.png")
+        self.setWindowIcon(icon)
+
         self.setStyleSheet("background-color: #2B5023")
 
         # Here, we instantiate the stackedwidget where we will place every new scene created 
