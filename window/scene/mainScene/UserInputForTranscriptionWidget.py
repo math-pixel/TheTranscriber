@@ -7,24 +7,28 @@ from window.scene.VideoTranscribedScene import *
 from window.scene.LoadingScene import *
 import threading
 
-class TranscribeVideoThread(QThread):
+# This thread will also observe the transcription to signal to the UserInputForTranscriptionWidget that
+# the state changed
+class TranscribeVideoThread(QThread, TranscriptionObserver):
     # Here, we signal that the pyqtSignal take 1 arg and it is a list
     finished_signal = pyqtSignal(list)
     update_state_signal = pyqtSignal(TranscriptionState)
 
-    def __init__(self, url, loadingScene):
+    def __init__(self, url):
         super().__init__()
         self.url = url
-        self.loadingScene = loadingScene;
 
     def run(self):
         trController = TranscriptionController.getInstance()
-        trController.addSubscriber(self.loadingScene)
+        trController.addSubscriber(self)
         result = trController.startTranscription(self.url);
-        trController.removeSubscriber(self.loadingScene)
+        trController.removeSubscriber(self)
         self.finished_signal.emit(result["segments"])
 
-class DragAndDrop(QWidget):
+    def update(self, state):
+        self.update_state_signal.emit(state)
+
+class UserInputForTranscriptionWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.setAcceptDrops(True)
@@ -75,6 +79,7 @@ class DragAndDrop(QWidget):
         self.vLayout.addWidget(self.divWidget)
         self.setLayout(self.vLayout)
 
+        self.loadingScene = None
 
 
     # ---------------------------------------------------------------------------- #
@@ -105,17 +110,22 @@ class DragAndDrop(QWidget):
     # This is the function called when we click on the button
     def launchTranscription(self, url):
 
-        loadingScene = LoadingScene()
-        self.transcribe_thread = TranscribeVideoThread(url, loadingScene)
+        self.loadingScene = LoadingScene()
+        self.transcribe_thread = TranscribeVideoThread(url)
         # Connect the callback to the finished signal !
         self.transcribe_thread.finished_signal.connect(self.nextPage)
+        self.transcribe_thread.update_state_signal.connect(self.updateLoadingSceneState)
         # TODO : ADD A NEW UPDATE STATE SIGNAL AND CONNECT IT TO THE LOADING SCENE
         self.transcribe_thread.start()
 
         # To avoid circular import here lol
         from window.SceneManager import SceneManager
-        SceneManager.getInstance().newScene(loadingScene)
+        SceneManager.getInstance().newScene(self.loadingScene)
         
+    def updateLoadingSceneState(self, state):
+        self.loadingScene.updateState(state)
+        DLog.goodlog("STATE UPDATED IN THREAD")
+        pass 
 
     def nextPage(self, result: list):
         # Cause of circular import, i can't import SceneManager at the module level (and it's normal lol)

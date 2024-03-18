@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
 from Utils import Utils
-from window.scene.mainScene.DragAndDrop import DragAndDrop
+from window.scene.mainScene.UserInputForTranscriptionWidget import UserInputForTranscriptionWidget
 import threading
 
 
@@ -15,7 +15,7 @@ class MainScene(QWidget):
         self.resize(1280, 556)
         self.center()
 
-        self.dragDiv = DragAndDrop()
+        self.dragDiv = UserInputForTranscriptionWidget()
         
         hLayout = QHBoxLayout()
         hLayout.addWidget(self.dragDiv) 

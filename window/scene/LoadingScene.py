@@ -9,7 +9,7 @@ import threading
 import math
 
 # This is the loading scene called after the MainScene, this will need some improvements
-class LoadingScene(QWidget, TranscriptionObserver):
+class LoadingScene(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -59,7 +59,7 @@ class LoadingScene(QWidget, TranscriptionObserver):
         self.showDownloadState()
 
     # Here it is the function update that came from the TranscriptionObserver
-    def update(self, state):
+    def updateState(self, state):
         if state == TranscriptionState.IDLE:
             self.showIdleState()
             pass
