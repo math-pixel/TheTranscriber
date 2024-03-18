@@ -3,6 +3,7 @@ from downloader.DownloaderManager import *
 from convertor.ConversionCoordinator import *
 from transcriber.TranscriberManager import *
 from enum import Enum
+from transcription.TranscriptionObserver import *
 
 class TranscriptionState(Enum):
     IDLE = "IDLE"
@@ -19,6 +20,7 @@ class TranscriptionState(Enum):
 
 
 # I named this class a controller cause the controller need to process the user input
+# This controller is also an Observable object lol : a singleton facade observable lol
 class TranscriptionController:
 
     instance = None
@@ -31,6 +33,7 @@ class TranscriptionController:
         self.trManager = TranscriberManager()
         self.trManager.setCurrentAI(ListAI.WHISPER, contextTranscriber)
         self.state = TranscriptionState.LOADINGMODEL
+        self.trSubscribers = [] # This is an array of TranscriptionObserver
         pass
 
     # The main function that we need to call, here, the input is only a string
@@ -58,18 +61,24 @@ class TranscriptionController:
         DLog.goodlog("updated state into " + str(state))
         # In this function, we will set the state and
         # TODO : NOTIFY SUBSCRIBERS THAT THE STATE CHANGED CAUSE THIS OBJECT IS AN OBSERVABLE
+        for sub in self.trSubscribers :
+            if isinstance(sub, TranscriptionObserver) == False:
+                DLog.bigerrorlog("You didn't put a Transcription Observer in the trSubscribers Array !!")
+            sub.update(state)
         self.state = state
+
+    def addSubscriber(self, subscriber):
+        self.trSubscribers.append(subscriber)
+
+    def removeSubscriber(self, subscriber):
+        # After you added a subscriber, if you don't use it in the future, DELETE IT PLZ !!!!
+        self.trSubscribers.remove(subscriber)
 
     # For some reason, this function worked as a static even without the @staticmethod... so i searched and lol
     # https://stackoverflow.com/questions/52831534/why-is-a-method-of-a-python-class-declared-without-self-and-without-decorators
-    # This is funny, what a snake
+    # This is funny, what a snake (python lol)
     @staticmethod
     def getInstance() -> 'TranscriptionController' :
         if TranscriptionController.instance == None :
             TranscriptionController.instance = TranscriptionController()
         return TranscriptionController.instance
-
-
-if __name__ == "__main__":
-    trCt = TranscriptionController.getInstance();
-    trCt.startTranscription("https://www.youtube.com/watch?v=z9w6tO4d90U")

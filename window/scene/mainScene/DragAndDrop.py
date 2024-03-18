@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit
 from PyQt5.QtCore import Qt, QUrl, QThread, pyqtSignal
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
 from Utils import Utils
-from transcription.TranscriptionController import *
+from transcription.TranscriptionObserver import *
 from window.scene.VideoTranscribedScene import *
 from window.scene.LoadingScene import *
 import threading
@@ -10,13 +10,18 @@ import threading
 class TranscribeVideoThread(QThread):
     # Here, we signal that the pyqtSignal take 1 arg and it is a list
     finished_signal = pyqtSignal(list)
+    update_state_signal = pyqtSignal(TranscriptionState)
 
-    def __init__(self, url):
+    def __init__(self, url, loadingScene):
         super().__init__()
         self.url = url
+        self.loadingScene = loadingScene;
 
     def run(self):
-        result = TranscriptionController.getInstance().startTranscription(self.url);
+        trController = TranscriptionController.getInstance()
+        trController.addSubscriber(self.loadingScene)
+        result = trController.startTranscription(self.url);
+        trController.removeSubscriber(self.loadingScene)
         self.finished_signal.emit(result["segments"])
 
 class DragAndDrop(QWidget):
@@ -98,7 +103,9 @@ class DragAndDrop(QWidget):
     # ---------------------------------------------------------------------------- #
     # This is the function called when we click on the button
     def launchTranscription(self, url):
-        self.transcribe_thread = TranscribeVideoThread(url)
+
+        loadingScene = LoadingScene()
+        self.transcribe_thread = TranscribeVideoThread(url, loadingScene)
         # Connect the callback to the finished signal !
         self.transcribe_thread.finished_signal.connect(self.nextPage)
         # TODO : ADD A NEW UPDATE STATE SIGNAL AND CONNECT IT TO THE LOADING SCENE
@@ -106,7 +113,7 @@ class DragAndDrop(QWidget):
 
         # To avoid circular import here lol
         from window.SceneManager import SceneManager
-        SceneManager.getInstance().newScene(LoadingScene())
+        SceneManager.getInstance().newScene(loadingScene)
         
 
     def nextPage(self, result: list):
