@@ -3,12 +3,20 @@ from downloader.DownloaderManager import *
 from convertor.ConversionCoordinator import *
 from transcriber.TranscriberManager import *
 
+from enum import Enum
 
 # The idea behind the code is to use https://refactoring.guru/fr/design-patterns/facade
 # So the design pattern of Facade (in french yes) wan't to simplify the interaction
 # with a set of class
 # This object is also a singleton, a singleton facade ahah
 
+
+class TranscriptionState(Enum):
+    IDLE = "IDLE"
+    DOWNLOADINGVIDEO = "DOWNLOADINGVIDEO"
+    CONVERTINGVIDEO = "CONVERTINGVIDEO"
+    LOADINGMODEL =  "LOADINGMODEL"
+    TRANSCRIBING = "TRANSCRIBING"
 
 # I named this class a controller cause the controller need to process the user input
 class TranscriptionController:
@@ -33,8 +41,11 @@ class TranscriptionController:
     def startTranscription(self, input: str):
         transcriberContext = TranscriberContext(input)
 
-        downloaderManager = DownloaderManager()
-        downloaderManager.startDownload(transcriberContext)
+        # TODO Decomment this lines or DONT COMMIT THIS FILE
+        # downloaderManager = DownloaderManager()
+        # downloaderManager.startDownload(transcriberContext)
+
+        transcriberContext.inputPath = "./export/video.mp4"
 
         converterCoordinator = ConversionCoordinator.getConversionCoordinator()
         conversionResult = converterCoordinator.convert(transcriberContext)
