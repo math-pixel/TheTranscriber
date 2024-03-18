@@ -101,6 +101,7 @@ class DragAndDrop(QWidget):
         self.transcribe_thread = TranscribeVideoThread(url)
         # Connect the callback to the finished signal !
         self.transcribe_thread.finished_signal.connect(self.nextPage)
+        # TODO : ADD A NEW UPDATE STATE SIGNAL AND CONNECT IT TO THE LOADING SCENE
         self.transcribe_thread.start()
 
         # To avoid circular import here lol
