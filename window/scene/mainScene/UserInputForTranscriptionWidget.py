@@ -1,11 +1,11 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtCore import Qt, QUrl, QThread, pyqtSignal
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
 from Utils import Utils
 from transcription.TranscriptionObserver import *
 from window.scene.VideoTranscribedScene import *
 from window.scene.LoadingScene import *
-import threading
+
 
 # This thread will also observe the transcription to signal to the UserInputForTranscriptionWidget that
 # the state changed
