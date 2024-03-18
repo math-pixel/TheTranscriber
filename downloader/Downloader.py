@@ -1,5 +1,6 @@
 import subprocess
 import shutil
+import os 
 
 from DLog import *
 
@@ -19,8 +20,10 @@ class DownloaderYoutube(Downloader):
         super().__init__()
 
     def startDownload(self, transcriberContext):
-        # TODO: add an args that automatically overwrite the file
-        command = ["youtube-dl", "-o", self.downloadPath, transcriberContext.url]
+        if os.path.exists(self.downloadPath) :
+            os.remove(self.downloadPath)
+
+        command = ["youtube-dl", "-o", self.downloadPath, transcriberContext.url, "-f" , "mp4"]
         DLog.goodlog("Starting Youtube Download")
         subprocess.run(command)
         DLog.goodlog("Ending Youtube Download")
