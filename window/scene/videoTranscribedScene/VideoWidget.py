@@ -1,10 +1,7 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QSlider, \
-    QSizePolicy, QStyle, QListWidget, QListWidgetItem, QScrollArea, QDesktopWidget
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QSlider, QSizePolicy, QStyle
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtCore import Qt, QUrl
-from PyQt5.QtGui import QFont
 
 class VideoWidget(QWidget):
     def __init__(self, parent=None):
@@ -18,6 +15,32 @@ class VideoWidget(QWidget):
         self.slider = QSlider(Qt.Horizontal)
         self.slider.setRange(0, 0)
         self.slider.sliderMoved.connect(self.set_position)
+        
+        self.slider.setStyleSheet("""
+            QSlider {
+                background-color: #f0f0f0;
+                border-radius: 10px;
+                height: 20px;
+                margin: 10px 0;
+            }
+
+            QSlider::groove:horizontal {
+                background-color: #ddd;
+                border-radius: 5px;
+            }
+
+            QSlider::handle:horizontal {
+                background-color: #FFA1A1;
+                border-radius: 8px;
+                width: 16px;
+                height: 16px;
+                margin: -4px 0;
+            }
+
+            QSlider::handle:horizontal:hover {
+                background-color: #dF8181;
+            }
+        """)
 
         # Créer le label pour afficher les informations
         self.label = QLabel()
@@ -28,9 +51,11 @@ class VideoWidget(QWidget):
         self.playButton.setEnabled(False)
         self.playButton.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
         self.playButton.clicked.connect(self.play_video)
+        
+        self.playButton.setStyleSheet("background-color: #FFA1A1; border: none; border-radius: 5px; padding: 10px; color: #fff")
 
-        self.printButton = QPushButton()
-        self.printButton.clicked.connect(self.set_value)
+        # self.printButton = QPushButton()
+        # self.printButton.clicked.connect(self.set_value)
 
         # Créer la liste pour stocker les lignes de texte avec les valeurs non affichées
         self.text_lines = []

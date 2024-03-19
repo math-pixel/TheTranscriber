@@ -1,25 +1,34 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QDesktopWidget
-from PyQt5.QtCore import Qt, QUrl, QThread, pyqtSignal
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
 from Utils import Utils
-from transcription.TranscriptionController import *
+from transcription.TranscriptionObserver import *
 from window.scene.VideoTranscribedScene import *
 from window.scene.LoadingScene import *
-import threading
 
-class TranscribeVideoThread(QThread):
+
+# This thread will also observe the transcription to signal to the UserInputForTranscriptionWidget that
+# the state changed
+class TranscribeVideoThread(QThread, TranscriptionObserver):
     # Here, we signal that the pyqtSignal take 1 arg and it is a list
     finished_signal = pyqtSignal(list)
+    update_state_signal = pyqtSignal(TranscriptionState)
 
     def __init__(self, url):
         super().__init__()
         self.url = url
 
     def run(self):
-        result = TranscriptionController.getInstance().startTranscription(self.url);
+        trController = TranscriptionController.getInstance()
+        trController.addSubscriber(self)
+        result = trController.startTranscription(self.url);
+        trController.removeSubscriber(self)
         self.finished_signal.emit(result["segments"])
 
-class DragAndDrop(QWidget):
+    def update(self, state):
+        self.update_state_signal.emit(state)
+
+class UserInputForTranscriptionWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.setAcceptDrops(True)
@@ -32,7 +41,7 @@ class DragAndDrop(QWidget):
 
         self.divWidget = QWidget(self)
         self.divWidget.setContentsMargins(50, 50, 50, 50)
-        self.divWidget.setStyleSheet(f"background-color: #A8DD9B; border-radius: 20px; font-size:20px; color: {self.textColor};")
+        self.divWidget.setStyleSheet(f"background-color: #76CA62; border-radius: 20px; font-size:20px; color: {self.textColor};")
 
         # ---------------------------------------------------------------------------- #
         #                                  Adding text                                 #
@@ -49,6 +58,7 @@ class DragAndDrop(QWidget):
 
         self.inputText = QLineEdit()
         self.inputText.setPlaceholderText("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        self.inputText.setStyleSheet(f"background-color: #A8DD9B; border-radius: 20px; padding: 10px 20px; color: {self.textColor};")
 
         self.button = QPushButton("GO")
         self.button.clicked.connect(lambda: self.launchTranscription(self.inputText.text()))
@@ -69,6 +79,7 @@ class DragAndDrop(QWidget):
         self.vLayout.addWidget(self.divWidget)
         self.setLayout(self.vLayout)
 
+        self.loadingScene = None
 
 
     # ---------------------------------------------------------------------------- #
@@ -98,15 +109,23 @@ class DragAndDrop(QWidget):
     # ---------------------------------------------------------------------------- #
     # This is the function called when we click on the button
     def launchTranscription(self, url):
+
+        self.loadingScene = LoadingScene()
         self.transcribe_thread = TranscribeVideoThread(url)
         # Connect the callback to the finished signal !
         self.transcribe_thread.finished_signal.connect(self.nextPage)
+        self.transcribe_thread.update_state_signal.connect(self.updateLoadingSceneState)
+        # TODO : ADD A NEW UPDATE STATE SIGNAL AND CONNECT IT TO THE LOADING SCENE
         self.transcribe_thread.start()
 
         # To avoid circular import here lol
         from window.SceneManager import SceneManager
-        SceneManager.getInstance().newScene(LoadingScene())
+        SceneManager.getInstance().newScene(self.loadingScene)
         
+    def updateLoadingSceneState(self, state):
+        self.loadingScene.updateState(state)
+        DLog.goodlog("STATE UPDATED IN THREAD")
+        pass 
 
     def nextPage(self, result: list):
         # Cause of circular import, i can't import SceneManager at the module level (and it's normal lol)

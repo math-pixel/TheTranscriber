@@ -1,6 +1,7 @@
 import subprocess
 import shutil
 import os 
+from pytube import YouTube
 
 from DLog import *
 
@@ -8,10 +9,14 @@ from DLog import *
 class Downloader:
 
     def __init__(self):
-        self.downloadPath = "./export/video.mp4"
+        self.downloadPath = "./export"
+        self.fileName = "video.mp4"
 
     def startDownload(self, transcriberContext):
         pass
+
+    def getFileLocation(self):
+        return self.downloadPath + "/" + self.fileName
 
 
 class DownloaderYoutube(Downloader):
@@ -20,14 +25,22 @@ class DownloaderYoutube(Downloader):
         super().__init__()
 
     def startDownload(self, transcriberContext):
-        if os.path.exists(self.downloadPath) :
-            os.remove(self.downloadPath)
+        if os.path.exists(self.getFileLocation()) :
+            os.remove(self.getFileLocation())
 
-        command = ["youtube-dl", "-o", self.downloadPath, transcriberContext.url, "-f" , "mp4"]
         DLog.goodlog("Starting Youtube Download")
-        subprocess.run(command)
+        
+        # Create a YouTube object
+        yt = YouTube(transcriberContext.url)
+
+        # Select the stream with normal resolution (360p)
+        stream = yt.streams.filter(res="360p").first()
+
+        # Download the video to the specified path
+        stream.download(output_path=self.downloadPath, filename=self.fileName)
+
         DLog.goodlog("Ending Youtube Download")
-        transcriberContext.inputPath = self.downloadPath
+        transcriberContext.inputPath = self.getFileLocation()
 
 
 class DownloaderLocal(Downloader):
