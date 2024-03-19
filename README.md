@@ -1,23 +1,49 @@
 # TheTranscriber
 
-## Installing libmagic
+## Description
 
-`libmagic` is a versatile library for identifying file types by analyzing their content, akin to the Unix file command. Compatible with Python versions 2.6, 2.7, and 3.2+, it operates seamlessly across Unix, Windows, and macOS systems. It's open for modification, redistribution, or any use, adhering to a public domain license. Ideal for validating uploaded files or classifying file types in diverse applications, libmagic offers a robust solution for file management challenges.
+The Transcriber project aims to provide a tool for automatically transcribing videos from YouTube into text format. This tool utilizes speech recognition technology to convert spoken words in videos into written text, enabling users to obtain accurate and readable transcripts of YouTube videos.
 
-### Installation
+## Prerequisites
 
-#### Brew
+Before installing this project, make sure you have the following installed:
 
+- Python (version 3.9.6)
+- libmagic
+- codec-Klite (on windows)
+
+## Installation
+
+> Clone this repository to your local machine:
 ```bash
-brew install libmagic
+git clone https://github.com/math-pixel/TheTranscriber.git
 ```
 
-#### Ubuntu
-
+> Navigate to the project directory:
 ```bash
-sudo apt-get install libmagic1
+cd TheTranscriber
 ```
 
-#### Windows
+> Install the dependencies
+```bash
+pip install -r requirements.txt
+```
 
-Install with the requirements.txt
+## Usage
+
+> Just launch the program :p
+```
+python main.py
+```
+
+## Contributors
+
+[<img src="https://github.com/math-pixel.png" width="50px" height="50px">](https://github.com/math-pixel)
+[<img src="https://github.com/Kibishi47.png" width="50px" height="50px">](https://github.com/Kibishi47)
+[<img src="https://github.com/EthanCarollo.png" width="50px" height="50px">](https://github.com/EthanCarollo)
+[<img src="https://github.com/Anthony74742.png" width="50px" height="50px">](https://github.com/Anthony74742)
+[<img src="https://github.com/Ilanou.png" width="50px" height="50px">](https://github.com/Ilanou)
+[<img src="https://github.com/P-Lrou.png" width="50px" height="50px">](https://github.com/P-Lrou)
+
+
+

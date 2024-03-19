@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QPushButton,
 from window.scene.MainScene import MainScene
 from window.scene.VideoTranscribedScene import VideoTranscribedScene
 from PyQt5.QtGui import QIcon
+from window.scene.Scene import Scene
 
 
 # Here, the "SceneManager", is just the QMainWindow, but with capabilities to manage scenes, the name
@@ -30,9 +31,11 @@ class SceneManager(QMainWindow):
         
         self.stacked_widget.addWidget(MainScene())
 
-    def newScene(self, scene):
+    def newScene(self, scene: Scene):
         self.removeScene()
+        self.stacked_widget.currentWidget().end()
         self.stacked_widget.addWidget(scene)
+        self.stacked_widget.currentWidget().start()
         self.stacked_widget.setCurrentWidget(scene)
 
     def removeScene(self):

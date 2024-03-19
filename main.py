@@ -1,7 +1,3 @@
-from TranscriberContext import TranscriberContext
-from transcription.TranscriptionController import TranscriptionController
-from DLog import DLog
-from Utils import Utils
 from window.SceneManager import *
 
 if __name__ == "__main__":
