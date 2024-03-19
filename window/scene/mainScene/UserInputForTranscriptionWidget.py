@@ -23,7 +23,8 @@ class TranscribeVideoThread(QThread, TranscriptionObserver):
         trController.addSubscriber(self)
         result = trController.startTranscription(self.url);
         trController.removeSubscriber(self)
-        self.finished_signal.emit(result["segments"])
+        if result != False :
+            self.finished_signal.emit(result["segments"])
 
     def update(self, state):
         self.update_state_signal.emit(state)
