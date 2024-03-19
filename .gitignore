@@ -1,0 +1,34 @@
+# Ignore Python virtual environment files
+venv/
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore Python generated files by setuptools
+*.egg-info/
+dist/
+build/
+
+# Ignore log files
+*.log
+
+# Ignore backup files
+*~
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Windows system files
+Thumbs.db
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore PyCharm Code settings
+.idea/
+
+# Ignore the output of the convertor
+export/output.mp3

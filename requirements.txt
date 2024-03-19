@@ -1,0 +1,6 @@
+openai-whisper==20231117
+moviepy==1.0.3
+pydub==0.25.1
+python-magic==0.4.27
+PyQt5==5.15.10
+pytube==15.0.0
