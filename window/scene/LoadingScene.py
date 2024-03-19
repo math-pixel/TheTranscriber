@@ -3,13 +3,14 @@ from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
 from Utils import Utils
 from DLog import *
+from window.scene.Scene import *
 from transcription.TranscriptionController import *
 from transcription.TranscriptionController import TranscriptionState
 import threading
 import math
 
 # This is the loading scene called after the MainScene, this will need some improvements
-class LoadingScene(QWidget):
+class LoadingScene(Scene):
     def __init__(self):
         super().__init__()
 
@@ -78,6 +79,11 @@ class LoadingScene(QWidget):
         else:
             raise Exception("State isn't implemented in the Loading Scene")
 
+    def start(self):
+        pass
+
+    def end(self):
+        pass
 
     def showIdleState(self):
         self.completed += 1

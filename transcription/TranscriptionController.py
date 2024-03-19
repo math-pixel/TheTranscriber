@@ -73,7 +73,6 @@ class TranscriptionController:
     def updateState(self, state):
         DLog.goodlog("updated state into " + str(state))
         # In this function, we will set the state and
-        # TODO : NOTIFY SUBSCRIBERS THAT THE STATE CHANGED CAUSE THIS OBJECT IS AN OBSERVABLE
         for sub in self.trSubscribers :
             if isinstance(sub, TranscriptionObserver) == False:
                 DLog.bigerrorlog("You didn't put a Transcription Observer in the trSubscribers Array !!")

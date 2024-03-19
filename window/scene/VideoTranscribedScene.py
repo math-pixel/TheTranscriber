@@ -1,8 +1,10 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
+from PyQt5.QtMultimedia import QMediaPlayer
 from window.scene.videoTranscribedScene.ParentWidget import ParentWidget
+from window.scene.Scene import *
 
 # The Video Transcribed Scene
-class VideoTranscribedScene(QWidget):
+class VideoTranscribedScene(Scene):
     # TODO : retire this stupid None
     def __init__(self, result, video_path):
         super().__init__()
@@ -27,3 +29,11 @@ class VideoTranscribedScene(QWidget):
         from window.SceneManager import SceneManager
         from window.scene.MainScene import MainScene
         SceneManager.getInstance().newScene(MainScene())
+
+    def start(self):
+        pass
+
+    def end(self):
+        if self.parentWidget.videoWidget.mediaPlayer.state() == QMediaPlayer.PlayingState:
+            self.parentWidget.videoWidget.mediaPlayer.pause()
+        pass

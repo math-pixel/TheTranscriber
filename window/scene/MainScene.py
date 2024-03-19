@@ -2,12 +2,13 @@ from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QDragEnterEvent, QDropEvent
 from Utils import Utils
+from window.scene.Scene import *
 from window.scene.mainScene.UserInputForTranscriptionWidget import UserInputForTranscriptionWidget
 import threading
 
 
 # The MainScene (the first one !)
-class MainScene(QWidget):
+class MainScene(Scene):
     def __init__(self):
         super().__init__()
 
@@ -22,10 +23,10 @@ class MainScene(QWidget):
 
         self.setLayout(hLayout)
 
-    def startScene(self):
+    def start(self):
         pass
 
-    def endScene(self):
+    def end(self):
         pass
 
     def center(self):
