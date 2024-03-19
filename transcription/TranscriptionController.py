@@ -11,6 +11,7 @@ class TranscriptionState(Enum):
     CONVERTINGVIDEO = "CONVERTINGVIDEO"
     LOADINGMODEL =  "LOADINGMODEL"
     TRANSCRIBING = "TRANSCRIBING" 
+    FAILED = "FAILED"
 
 from enum import Enum
 
@@ -26,6 +27,7 @@ class TranscriptionState(Enum):
     CONVERTINGVIDEO = "CONVERTINGVIDEO"
     LOADINGMODEL =  "LOADINGMODEL"
     TRANSCRIBING = "TRANSCRIBING"
+    FAILED = "FAILED"
 
 # I named this class a controller cause the controller need to process the user input
 # This controller is also an Observable object lol : a singleton facade observable lol
@@ -49,13 +51,16 @@ class TranscriptionController:
     # input text that contains the url // the path of the video
     # We may need to thread that in the future
     def startTranscription(self, input: str):
-        transcriberContext = TranscriberContext(input)
 
+        transcriberContext = TranscriberContext(input)
         self.updateState(TranscriptionState.DOWNLOADINGVIDEO)
         downloaderManager = DownloaderManager()
-        downloaderManager.startDownload(transcriberContext)
+        downloaderWorked = downloaderManager.startDownload(transcriberContext)
+        if downloaderWorked == False :
+            self.updateState(TranscriptionState.FAILED)
+            return False
 
-        # TODO ERASE OR UNCOMMENT this lines if you wan't to test without download
+        # * ERASE OR UNCOMMENT these lines if you wan't to test without download
         # downloaderManager = DownloaderManager()
         # downloaderManager.startDownload(transcriberContext)
         # transcriberContext.inputPath = "./export/video.mp4"
