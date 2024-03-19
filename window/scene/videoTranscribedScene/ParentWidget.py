@@ -26,11 +26,10 @@ class ParentWidget(QWidget):
         self.videoWidget.set_position(int(item.get_value() * 1000))
 
     def on_video_position_changed(self, position):
-        for i in range(self.listWidget.listWidget.count()):
+        for i in reversed(range(self.listWidget.listWidget.count())):
             item = self.listWidget.listWidget.item(i)
             if item:
                 start = int(item.get_value() * 1000)
-                end = int((item.get_value() + 5) * 1000)  # Ajustez la fin comme vous le souhaitez
-                if start <= position <= end:
-                    self.listWidget.listWidget.setCurrentItem(item)
+                if position >= start:
+                    item.setSelected(True)
                     break

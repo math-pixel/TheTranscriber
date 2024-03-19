@@ -10,6 +10,7 @@ class CustomQListWidgetItem(QListWidgetItem):
         return self.value
 
 class ListWidget(QWidget):
+    # Tab is the result from the transcriber in this case
     def __init__(self, tab, videoDisplay, parent=None):
         super().__init__(parent)
         
@@ -20,7 +21,6 @@ class ListWidget(QWidget):
         self.layout = QVBoxLayout()
         
         self.listWidget = QListWidget()
-        self.listWidget.itemSelectionChanged.connect(self.get_selected_item_value)
         self.listWidget.setStyleSheet("""
             QListWidget {
                 padding: 10px;
@@ -59,12 +59,6 @@ class ListWidget(QWidget):
         self.layout.addWidget(self.scrollArea)
         self.setLayout(self.layout)
 
-
-
-    def get_selected_item_value(self):
-        self.selected_item = self.listWidget.currentItem()
-        if self.selected_item:
-            self.videoWidget.set_position(int(self.selected_item.get_value() * 1000))
 
     def setItems(self, tab):
         items = []
